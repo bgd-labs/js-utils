@@ -1,0 +1,25 @@
+{
+  "name": "js-utils",
+  "version": "1.0.0",
+  "description": "tools for you and your friends",
+  "main": "cli.ts",
+  "author": "BGS labs (@bgdlabs)",
+  "license": "MIT",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "start": ""
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "@types/prettier": "^2.7.3",
+    "prettier": "^3.0.0",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "tsx": "^4.4.0"
+  }
+}

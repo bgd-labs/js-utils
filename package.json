@@ -10,7 +10,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "start": ""
+    "storage-diff": "tsx src/cli storage-diff"
   },
   "devDependencies": {
     "@types/node": "^20.4.5",
@@ -20,6 +20,7 @@
     "typescript": "^5.1.6"
   },
   "dependencies": {
+    "commander": "^11.1.0",
     "tsx": "^4.4.0"
   }
 }

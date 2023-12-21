@@ -5,7 +5,11 @@ import {
   Storage,
 } from './types.ts';
 
-export function compareStorageLayouts(filepath1: string, filepath2: string) {
+export function compareStorageLayouts(
+  filepath1: string,
+  filepath2: string,
+  outputFilename = 'storage-diff',
+) {
   if (!fs.existsSync(filepath1)) {
     throw new Error(`${filepath1} not found.`);
   }
@@ -36,7 +40,12 @@ export function compareStorageLayouts(filepath1: string, filepath2: string) {
 
   // output MD
   const md = generateMarkdownOutput(comparison);
-  console.log(md);
+
+  if (!fs.existsSync('diff')) {
+    fs.mkdirSync('diff');
+  }
+
+  fs.writeFileSync(`diff/${outputFilename}.md`, md);
 }
 
 function preformatStorageLayout(json: Storage): StorageItemForComparison[] {
@@ -160,5 +169,3 @@ function padString(str: string, length: number): string {
   // Add padding to the string to reach the desired length
   return str + ' '.repeat(length - str.length);
 }
-
-compareStorageLayouts('reports/storage1.json', 'reports/storage2.json');

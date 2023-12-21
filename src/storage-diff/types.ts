@@ -1,4 +1,4 @@
-interface StorageItem {
+export interface StorageItem {
   astId: number;
   contract: string;
   label: string;
@@ -7,7 +7,7 @@ interface StorageItem {
   type: string;
 }
 
-interface TypeItem {
+export interface TypeItem {
   encoding: string;
   label: string;
   numberOfBytes: string;
@@ -17,7 +17,7 @@ interface TypeItem {
   members?: Member[];
 }
 
-interface Member {
+export interface Member {
   astId: number;
   contract: string;
   label: string;
@@ -26,7 +26,19 @@ interface Member {
   type: string;
 }
 
-interface Storage {
+export interface Storage {
   storage: StorageItem[];
   types: { [key: string]: TypeItem };
+}
+
+export interface StorageItemForComparison {
+  label: string;
+  offset: number;
+  slot: string;
+  type: string;
+  numberOfBytes: string;
+}
+
+export interface ComparedStorageItem extends StorageItemForComparison {
+  status: 'added' | 'removed' | 'unchanged';
 }

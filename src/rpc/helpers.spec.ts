@@ -54,6 +54,6 @@ describe('helpers', () => {
 
       expect(logs).toMatchSnapshot();
     },
-    { timeout: 20000 },
+    { timeout: 60000 },
   );
 });

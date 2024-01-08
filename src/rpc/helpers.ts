@@ -158,6 +158,22 @@ export async function getLogsRecursive<
           batchSize: 10000,
         });
       }
+      // llama style error
+      if (
+        error.message &&
+        (error.message as string).includes(
+          'query exceeds max block range 100000',
+        )
+      ) {
+        return getLogsInBatches({
+          client,
+          events,
+          address,
+          fromBlock,
+          toBlock,
+          batchSize: 100000,
+        });
+      }
       // divide & conquer when issue/limit is now known
       const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
       const arr1 = await getLogsRecursive({

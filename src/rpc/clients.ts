@@ -18,7 +18,7 @@ import {
 
 export const mainnetClient = createPublicClient({
   chain: mainnet,
-  transport: http(process.env.RPC_MAINNET),
+  transport: http('https://eth.llamarpc.com'), //process.env.RPC_MAINNET),
 });
 
 export const arbitrumClient = createPublicClient({

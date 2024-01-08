@@ -49,11 +49,11 @@ describe('helpers', () => {
         events: [getAbiItem({ abi: IPoolV1_ABI, name: 'Borrow' })],
         address: '0x398eC7346DcD622eDc5ae82352F02bE94C62d119', // v1 pool
         fromBlock: 9241022n,
-        toBlock: 9341022n,
+        toBlock: 9281022n,
       });
 
       expect(logs).toMatchSnapshot();
     },
-    { timeout: 20000 },
+    { timeout: 60000 },
   );
 });

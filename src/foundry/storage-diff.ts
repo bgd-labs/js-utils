@@ -1,28 +1,19 @@
-import * as fs from 'fs';
 import {
   StorageItemForComparison,
   ComparedStorageItem,
   Storage,
 } from './types.ts';
 
+/**
+ * Generates a markdown table comparing two foundry storage layout snapshots
+ * @param layoutBefore
+ * @param layoutAfter
+ * @returns markdown string
+ */
 export function compareStorageLayouts(
-  filepath1: string,
-  filepath2: string,
-  outputFilename = 'storage-diff',
+  layoutBefore: Storage,
+  layoutAfter: Storage,
 ) {
-  if (!fs.existsSync(filepath1)) {
-    throw new Error(`${filepath1} not found.`);
-  }
-
-  if (!fs.existsSync(filepath2)) {
-    throw new Error(`${filepath2} not found.`);
-  }
-
-  const layoutBefore = JSON.parse(
-    fs.readFileSync(filepath1, 'utf8'),
-  ) as Storage;
-  const layoutAfter = JSON.parse(fs.readFileSync(filepath2, 'utf8')) as Storage;
-
   // preformat jsons
   const layoutForComparisonBefore: StorageItemForComparison[] =
     preformatStorageLayout(layoutBefore);
@@ -36,16 +27,9 @@ export function compareStorageLayouts(
     layoutForComparisonAfter,
   );
 
-  // console.log(comparison);
-
   // output MD
   const md = generateMarkdownOutput(comparison);
-
-  if (!fs.existsSync('diff')) {
-    fs.mkdirSync('diff');
-  }
-
-  fs.writeFileSync(`diff/${outputFilename}.md`, md);
+  return md;
 }
 
 function preformatStorageLayout(json: Storage): StorageItemForComparison[] {

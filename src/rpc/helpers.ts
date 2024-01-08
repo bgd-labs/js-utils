@@ -142,6 +142,7 @@ export async function getLogsRecursive<
       });
       return logs;
     } catch (error: any) {
+      console.log(error);
       // quicknode style errors
       if (
         error.message &&

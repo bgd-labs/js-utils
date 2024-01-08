@@ -47,5 +47,8 @@
   },
   "dependencies": {
     "tsx": "^4.4.0"
+  },
+  "peerDependencies": {
+    "viem": "^2.0.3"
   }
 }

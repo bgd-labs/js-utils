@@ -1,0 +1,446 @@
+{
+  "storage": [
+    {
+      "astId": 4770,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_balances",
+      "offset": 0,
+      "slot": "0",
+      "type": "t_mapping(t_address,t_struct(DelegationAwareBalance)4765_storage)"
+    },
+    {
+      "astId": 4776,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_allowances",
+      "offset": 0,
+      "slot": "1",
+      "type": "t_mapping(t_address,t_mapping(t_address,t_uint256))"
+    },
+    {
+      "astId": 4778,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_totalSupply",
+      "offset": 0,
+      "slot": "2",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 4780,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_name",
+      "offset": 0,
+      "slot": "3",
+      "type": "t_string_storage"
+    },
+    {
+      "astId": 4782,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_symbol",
+      "offset": 0,
+      "slot": "4",
+      "type": "t_string_storage"
+    },
+    {
+      "astId": 4784,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "______DEPRECATED_OLD_ERC20_DECIMALS",
+      "offset": 0,
+      "slot": "5",
+      "type": "t_uint8"
+    },
+    {
+      "astId": 4730,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "__________DEPRECATED_GOV_V2_PART",
+      "offset": 0,
+      "slot": "6",
+      "type": "t_array(t_uint256)3_storage"
+    },
+    {
+      "astId": 4178,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "lastInitializedRevision",
+      "offset": 0,
+      "slot": "9",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 4209,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "______gap",
+      "offset": 0,
+      "slot": "10",
+      "type": "t_array(t_uint256)50_storage"
+    },
+    {
+      "astId": 4234,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "assets",
+      "offset": 0,
+      "slot": "60",
+      "type": "t_mapping(t_address,t_struct(AssetData)4222_storage)"
+    },
+    {
+      "astId": 5361,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "stakerRewardsToClaim",
+      "offset": 0,
+      "slot": "61",
+      "type": "t_mapping(t_address,t_uint256)"
+    },
+    {
+      "astId": 5366,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "stakersCooldowns",
+      "offset": 0,
+      "slot": "62",
+      "type": "t_mapping(t_address,t_struct(CooldownSnapshot)3544_storage)"
+    },
+    {
+      "astId": 5371,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "______DEPRECATED_FROM_STK_AAVE_V2",
+      "offset": 0,
+      "slot": "63",
+      "type": "t_array(t_uint256)5_storage"
+    },
+    {
+      "astId": 5381,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_nonces",
+      "offset": 0,
+      "slot": "68",
+      "type": "t_mapping(t_address,t_uint256)"
+    },
+    {
+      "astId": 5957,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_admins",
+      "offset": 0,
+      "slot": "69",
+      "type": "t_mapping(t_uint256,t_address)"
+    },
+    {
+      "astId": 5961,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_pendingAdmins",
+      "offset": 0,
+      "slot": "70",
+      "type": "t_mapping(t_uint256,t_address)"
+    },
+    {
+      "astId": 2063,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_votingDelegatee",
+      "offset": 0,
+      "slot": "71",
+      "type": "t_mapping(t_address,t_address)"
+    },
+    {
+      "astId": 2067,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_propositionDelegatee",
+      "offset": 0,
+      "slot": "72",
+      "type": "t_mapping(t_address,t_address)"
+    },
+    {
+      "astId": 7761,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "______gap",
+      "offset": 0,
+      "slot": "73",
+      "type": "t_array(t_uint256)6_storage"
+    },
+    {
+      "astId": 7764,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_cooldownSeconds",
+      "offset": 0,
+      "slot": "79",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 7767,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_maxSlashablePercentage",
+      "offset": 0,
+      "slot": "80",
+      "type": "t_uint256"
+    },
+    {
+      "astId": 7770,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "_currentExchangeRate",
+      "offset": 0,
+      "slot": "81",
+      "type": "t_uint216"
+    },
+    {
+      "astId": 7773,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "inPostSlashingPeriod",
+      "offset": 27,
+      "slot": "81",
+      "type": "t_bool"
+    },
+    {
+      "astId": 9317,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "______DEPRECATED_FROM_STK_AAVE_V3",
+      "offset": 0,
+      "slot": "82",
+      "type": "t_array(t_uint256)1_storage"
+    },
+    {
+      "astId": 9321,
+      "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+      "label": "ghoDebtToken",
+      "offset": 0,
+      "slot": "83",
+      "type": "t_contract(IGhoVariableDebtTokenTransferHook)9269"
+    }
+  ],
+  "types": {
+    "t_address": {
+      "encoding": "inplace",
+      "label": "address",
+      "numberOfBytes": "20"
+    },
+    "t_array(t_uint256)1_storage": {
+      "encoding": "inplace",
+      "label": "uint256[1]",
+      "numberOfBytes": "32",
+      "base": "t_uint256"
+    },
+    "t_array(t_uint256)3_storage": {
+      "encoding": "inplace",
+      "label": "uint256[3]",
+      "numberOfBytes": "96",
+      "base": "t_uint256"
+    },
+    "t_array(t_uint256)50_storage": {
+      "encoding": "inplace",
+      "label": "uint256[50]",
+      "numberOfBytes": "1600",
+      "base": "t_uint256"
+    },
+    "t_array(t_uint256)5_storage": {
+      "encoding": "inplace",
+      "label": "uint256[5]",
+      "numberOfBytes": "160",
+      "base": "t_uint256"
+    },
+    "t_array(t_uint256)6_storage": {
+      "encoding": "inplace",
+      "label": "uint256[6]",
+      "numberOfBytes": "192",
+      "base": "t_uint256"
+    },
+    "t_bool": {
+      "encoding": "inplace",
+      "label": "bool",
+      "numberOfBytes": "1"
+    },
+    "t_contract(IGhoVariableDebtTokenTransferHook)9269": {
+      "encoding": "inplace",
+      "label": "contract IGhoVariableDebtTokenTransferHook",
+      "numberOfBytes": "20"
+    },
+    "t_enum(DelegationMode)2048": {
+      "encoding": "inplace",
+      "label": "enum DelegationMode",
+      "numberOfBytes": "1"
+    },
+    "t_mapping(t_address,t_address)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => address)",
+      "numberOfBytes": "32",
+      "value": "t_address"
+    },
+    "t_mapping(t_address,t_mapping(t_address,t_uint256))": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => mapping(address => uint256))",
+      "numberOfBytes": "32",
+      "value": "t_mapping(t_address,t_uint256)"
+    },
+    "t_mapping(t_address,t_struct(AssetData)4222_storage)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => struct AaveDistributionManager.AssetData)",
+      "numberOfBytes": "32",
+      "value": "t_struct(AssetData)4222_storage"
+    },
+    "t_mapping(t_address,t_struct(CooldownSnapshot)3544_storage)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => struct IStakedTokenV2.CooldownSnapshot)",
+      "numberOfBytes": "32",
+      "value": "t_struct(CooldownSnapshot)3544_storage"
+    },
+    "t_mapping(t_address,t_struct(DelegationAwareBalance)4765_storage)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => struct BaseAaveToken.DelegationAwareBalance)",
+      "numberOfBytes": "32",
+      "value": "t_struct(DelegationAwareBalance)4765_storage"
+    },
+    "t_mapping(t_address,t_uint256)": {
+      "encoding": "mapping",
+      "key": "t_address",
+      "label": "mapping(address => uint256)",
+      "numberOfBytes": "32",
+      "value": "t_uint256"
+    },
+    "t_mapping(t_uint256,t_address)": {
+      "encoding": "mapping",
+      "key": "t_uint256",
+      "label": "mapping(uint256 => address)",
+      "numberOfBytes": "32",
+      "value": "t_address"
+    },
+    "t_string_storage": {
+      "encoding": "bytes",
+      "label": "string",
+      "numberOfBytes": "32"
+    },
+    "t_struct(AssetData)4222_storage": {
+      "encoding": "inplace",
+      "label": "struct AaveDistributionManager.AssetData",
+      "numberOfBytes": "96",
+      "members": [
+        {
+          "astId": 4213,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "emissionPerSecond",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 4215,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "lastUpdateTimestamp",
+          "offset": 16,
+          "slot": "0",
+          "type": "t_uint128"
+        },
+        {
+          "astId": 4217,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "index",
+          "offset": 0,
+          "slot": "1",
+          "type": "t_uint256"
+        },
+        {
+          "astId": 4221,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "users",
+          "offset": 0,
+          "slot": "2",
+          "type": "t_mapping(t_address,t_uint256)"
+        }
+      ]
+    },
+    "t_struct(CooldownSnapshot)3544_storage": {
+      "encoding": "inplace",
+      "label": "struct IStakedTokenV2.CooldownSnapshot",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 3541,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "timestamp",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint40"
+        },
+        {
+          "astId": 3543,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "amount",
+          "offset": 5,
+          "slot": "0",
+          "type": "t_uint216"
+        }
+      ]
+    },
+    "t_struct(DelegationAwareBalance)4765_storage": {
+      "encoding": "inplace",
+      "label": "struct BaseAaveToken.DelegationAwareBalance",
+      "numberOfBytes": "32",
+      "members": [
+        {
+          "astId": 4757,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "balance",
+          "offset": 0,
+          "slot": "0",
+          "type": "t_uint104"
+        },
+        {
+          "astId": 4759,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "delegatedPropositionBalance",
+          "offset": 13,
+          "slot": "0",
+          "type": "t_uint72"
+        },
+        {
+          "astId": 4761,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "delegatedVotingBalance",
+          "offset": 22,
+          "slot": "0",
+          "type": "t_uint72"
+        },
+        {
+          "astId": 4764,
+          "contract": "src/flattened/StakedAaveV3Flattened.sol:StakedAaveV3",
+          "label": "delegationMode",
+          "offset": 31,
+          "slot": "0",
+          "type": "t_enum(DelegationMode)2048"
+        }
+      ]
+    },
+    "t_uint104": {
+      "encoding": "inplace",
+      "label": "uint104",
+      "numberOfBytes": "13"
+    },
+    "t_uint128": {
+      "encoding": "inplace",
+      "label": "uint128",
+      "numberOfBytes": "16"
+    },
+    "t_uint216": {
+      "encoding": "inplace",
+      "label": "uint216",
+      "numberOfBytes": "27"
+    },
+    "t_uint256": {
+      "encoding": "inplace",
+      "label": "uint256",
+      "numberOfBytes": "32"
+    },
+    "t_uint40": {
+      "encoding": "inplace",
+      "label": "uint40",
+      "numberOfBytes": "5"
+    },
+    "t_uint72": {
+      "encoding": "inplace",
+      "label": "uint72",
+      "numberOfBytes": "9"
+    },
+    "t_uint8": {
+      "encoding": "inplace",
+      "label": "uint8",
+      "numberOfBytes": "1"
+    }
+  }
+}

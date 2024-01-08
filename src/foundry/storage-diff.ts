@@ -1,28 +1,19 @@
-import * as fs from 'fs';
 import {
   StorageItemForComparison,
   ComparedStorageItem,
   Storage,
 } from './types.ts';
 
+/**
+ * Generates a markdown table comparing two foundry storage layout snapshots
+ * @param layoutBefore
+ * @param layoutAfter
+ * @returns markdown string
+ */
 export function compareStorageLayouts(
-  filepath1: string,
-  filepath2: string,
-  outputFilename = 'storage-diff',
+  layoutBefore: Storage,
+  layoutAfter: Storage,
 ) {
-  if (!fs.existsSync(filepath1)) {
-    throw new Error(`${filepath1} not found.`);
-  }
-
-  if (!fs.existsSync(filepath2)) {
-    throw new Error(`${filepath2} not found.`);
-  }
-
-  const layoutBefore = JSON.parse(
-    fs.readFileSync(filepath1, 'utf8'),
-  ) as Storage;
-  const layoutAfter = JSON.parse(fs.readFileSync(filepath2, 'utf8')) as Storage;
-
   // preformat jsons
   const layoutForComparisonBefore: StorageItemForComparison[] =
     preformatStorageLayout(layoutBefore);
@@ -36,16 +27,9 @@ export function compareStorageLayouts(
     layoutForComparisonAfter,
   );
 
-  // console.log(comparison);
-
   // output MD
   const md = generateMarkdownOutput(comparison);
-
-  if (!fs.existsSync('diff')) {
-    fs.mkdirSync('diff');
-  }
-
-  fs.writeFileSync(`diff/${outputFilename}.md`, md);
+  return md;
 }
 
 function preformatStorageLayout(json: Storage): StorageItemForComparison[] {
@@ -127,13 +111,16 @@ function generateMarkdownOutput(items: ComparedStorageItem[]): string {
   let markdownTable = '```diff\n';
 
   // Generate the table header
-  markdownTable += ` | ${padString('Label', columnWidths.name)} | ${padString(
-    'Offset',
-    columnWidths.offset,
-  )} | ${padString('Slot', columnWidths.slot)} | ${padString(
-    'Type',
-    columnWidths.type,
-  )} | ${padString('Bytes', columnWidths.numberOfBytes)} |\n`;
+  markdownTable += ` | ${'Label'.padEnd(
+    columnWidths.name,
+    ' ',
+  )} | ${'Offset'.padEnd(columnWidths.offset, ' ')} | ${'Slot'.padEnd(
+    columnWidths.slot,
+    ' ',
+  )} | ${'Type'.padEnd(columnWidths.type, ' ')} | ${'Bytes'.padEnd(
+    columnWidths.numberOfBytes,
+    ' ',
+  )} |\n`;
 
   markdownTable += ` |${'-'.repeat(columnWidths.name + 2)}|${'-'.repeat(
     columnWidths.offset + 2,
@@ -146,16 +133,18 @@ function generateMarkdownOutput(items: ComparedStorageItem[]): string {
     const sign =
       item.status === 'added' ? '+' : item.status === 'removed' ? '-' : ' ';
 
-    const row = `${sign}| ${padString(
-      item.label,
+    const row = `${sign}| ${item.label.padEnd(
       columnWidths.name,
-    )} | ${padString(
-      item.offset.toString(),
-      columnWidths.offset,
-    )} | ${padString(item.slot, columnWidths.slot)} | ${padString(
-      item.type,
+      ' ',
+    )} | ${item.offset
+      .toString()
+      .padEnd(columnWidths.offset, ' ')} | ${item.slot.padEnd(
+      columnWidths.slot,
+      ' ',
+    )} | ${item.type.padEnd(
       columnWidths.type,
-    )} | ${padString(item.numberOfBytes, columnWidths.numberOfBytes)} |\n`;
+      ' ',
+    )} | ${item.numberOfBytes.padEnd(columnWidths.numberOfBytes, ' ')} |\n`;
 
     markdownTable += row;
   });
@@ -163,9 +152,4 @@ function generateMarkdownOutput(items: ComparedStorageItem[]): string {
   markdownTable += '```';
 
   return markdownTable;
-}
-
-function padString(str: string, length: number): string {
-  // Add padding to the string to reach the desired length
-  return str + ' '.repeat(length - str.length);
 }

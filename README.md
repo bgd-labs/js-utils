@@ -1,17 +1,11 @@
 # js-utils
 
-## Storage diff
+## Foundry utils
 
-Usage: `yarn storage-diff <layout1Path> <layout2Path> [options]`
+- storage diff for json storage snapshots
 
-Compare two storage layout files
+## RPC utils
 
-Arguments:
-
-`layout1Path` - path to the first storage layout file
-
-`layout2Path` - path to the second storage layout file
-
-Options:
--o, --output `<filename>` output filename (default: "storage-diff")
--h, --help display help for command
+- publicClient instances for all chains following our .env name scheme
+- chainIds enum with all chains we're working with
+- helpers for various common tasks (identifying when a contract was deployed, fetching logs, etc)

@@ -21,7 +21,7 @@ jobs:
         id: release
         with:
           release-type: node
-          package-name: aave-cli
+          package-name: js-utils
           pull-request-header: 'I have created a release'
 
   release-node:

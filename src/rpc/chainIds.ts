@@ -3,7 +3,6 @@ export enum ChainId {
   ropsten = 3,
   rinkeby = 4,
   goerli = 5,
-  xdai = 100,
   polygon = 137,
   mumbai = 80001,
   avalanche = 43114,

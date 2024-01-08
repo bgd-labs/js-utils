@@ -1,4 +1,4 @@
-import { createPublicClient, http } from 'viem';
+import { PublicClient, createPublicClient, http } from 'viem';
 import {
   mainnet,
   arbitrum,
@@ -15,6 +15,7 @@ import {
   polygonZkEvm,
   scroll,
 } from 'viem/chains';
+import { ChainId } from './chainIds';
 
 export const mainnetClient = createPublicClient({
   chain: mainnet,
@@ -85,3 +86,20 @@ export const zkEVMClient = createPublicClient({
   chain: polygonZkEvm,
   transport: http(process.env.RPC_ZKEVM),
 });
+
+export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
+  [ChainId.mainnet]: mainnetClient,
+  [ChainId.arbitrum_one]: arbitrumClient,
+  [ChainId.polygon]: polygonClient,
+  [ChainId.optimism]: optimismClient,
+  [ChainId.metis]: metisClient,
+  [ChainId.base]: baseClient,
+  [ChainId.sepolia]: sepoliaClient,
+  [ChainId.goerli]: goerliClient,
+  [ChainId.fantom]: fantomClient,
+  [ChainId.bnb]: bnbClient,
+  [ChainId.avalanche]: avalancheClient,
+  [ChainId.gnosis]: gnosisClient,
+  [ChainId.scroll]: scrollClient,
+  [ChainId.zkEVM]: zkEVMClient,
+} as const;

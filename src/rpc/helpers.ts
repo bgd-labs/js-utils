@@ -1,6 +1,14 @@
 import { Address, GetLogsReturnType, PublicClient } from 'viem';
 import type { Abi, AbiEvent } from 'abitype';
 
+interface GetContractDeploymentBlockArgs {
+  client: PublicClient;
+  contractAddress: Address;
+  fromBlock: bigint;
+  toBlock: bigint;
+  maxDelta: bigint;
+}
+
 /**
  * In some cases it's important to know when a contract was first seen onChain.
  * This data is hard to obtain, as it's not indexed data.
@@ -12,13 +20,13 @@ import type { Abi, AbiEvent } from 'abitype';
  * @param maxDelta the maximum block distance between the returned block and the deployment block
  * @returns a blockNumber on which the contract is not yet deployed with a max delta to when it was deployed
  */
-export async function getContractDeploymentBlock(
-  client: PublicClient,
-  contractAddress: Address,
-  fromBlock: bigint,
-  toBlock: bigint,
-  maxDelta: bigint,
-) {
+export async function getContractDeploymentBlock({
+  client,
+  contractAddress,
+  fromBlock,
+  toBlock,
+  maxDelta,
+}: GetContractDeploymentBlockArgs) {
   if (fromBlock == toBlock) return fromBlock;
   if (fromBlock < toBlock) {
     const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
@@ -28,27 +36,34 @@ export async function getContractDeploymentBlock(
     });
     if (!codeMid) {
       if (toBlock - midBlock > maxDelta) {
-        return getContractDeploymentBlock(
+        return getContractDeploymentBlock({
           client,
           contractAddress,
-
-          midBlock,
+          fromBlock: midBlock,
           toBlock,
           maxDelta,
-        );
+        });
       } else {
         return midBlock;
       }
     }
-    return getContractDeploymentBlock(
+    return getContractDeploymentBlock({
       client,
       contractAddress,
       fromBlock,
-      midBlock,
+      toBlock: midBlock,
       maxDelta,
-    );
+    });
   }
   throw new Error('Could not find contract deployment block');
+}
+
+interface GetBlockAtTimestampArgs {
+  client: PublicClient;
+  timestamp: bigint;
+  fromBlock: bigint;
+  toBlock: bigint;
+  maxDelta: bigint;
 }
 
 /**
@@ -60,53 +75,63 @@ export async function getContractDeploymentBlock(
  * @param maxDelta
  * @returns blocknumber
  */
-export async function getBlockAtTimestamp(
-  client: PublicClient,
-  timestamp: bigint,
-  fromBlock: bigint,
-  toBlock: bigint,
-  maxDelta: bigint,
-) {
+export async function getBlockAtTimestamp({
+  client,
+  timestamp,
+  fromBlock,
+  toBlock,
+  maxDelta,
+}: GetBlockAtTimestampArgs) {
   if (fromBlock <= toBlock) {
     const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
     const block = await client.getBlock({ blockNumber: midBlock });
     if (block.timestamp > timestamp) {
-      return getBlockAtTimestamp(
+      return getBlockAtTimestamp({
         client,
         timestamp,
         fromBlock,
-        midBlock,
+        toBlock: midBlock,
         maxDelta,
-      );
+      });
     } else {
       if (timestamp - block.timestamp < maxDelta) {
         return block;
       } else {
-        return getBlockAtTimestamp(
+        return getBlockAtTimestamp({
           client,
           timestamp,
-          midBlock,
+          fromBlock: midBlock,
           toBlock,
           maxDelta,
-        );
+        });
       }
     }
   }
   throw new Error('Could not find matching block');
 }
 
+interface GetLogsRecursiveArgs<TAbiEvents extends AbiEvent[] | undefined> {
+  client: PublicClient;
+  events: TAbiEvents;
+  address: Address;
+  fromBlock: bigint;
+  toBlock: bigint;
+}
+
 /**
  * fetches logs recursively
  */
-export async function getPastLogsRecursive<
+export async function getLogsRecursive<
   TAbiEvents extends AbiEvent[] | undefined,
->(
-  client: PublicClient,
-  events: TAbiEvents,
-  address: Address,
-  fromBlock: bigint,
-  toBlock: bigint,
-): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
+>({
+  client,
+  events,
+  address,
+  fromBlock,
+  toBlock,
+}: GetLogsRecursiveArgs<TAbiEvents>): Promise<
+  GetLogsReturnType<undefined, TAbiEvents>
+> {
   if (fromBlock <= toBlock) {
     try {
       const logs = await client.getLogs({
@@ -124,35 +149,40 @@ export async function getPastLogsRecursive<
           'eth_getLogs is limited to a 10,000 range',
         )
       ) {
-        return getLogsInBatches(
+        return getLogsInBatches({
           client,
           events,
           address,
           fromBlock,
           toBlock,
-          10000,
-        );
+          batchSize: 10000,
+        });
       }
       // divide & conquer when issue/limit is now known
       const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
-      const arr1 = await getPastLogsRecursive(
+      const arr1 = await getLogsRecursive({
         client,
         events,
         address,
         fromBlock,
-        midBlock,
-      );
-      const arr2 = await getPastLogsRecursive(
+        toBlock: midBlock,
+      });
+      const arr2 = await getLogsRecursive({
         client,
         events,
         address,
-        midBlock + BigInt(1),
+        fromBlock: midBlock + BigInt(1),
         toBlock,
-      );
+      });
       return [...arr1, ...arr2];
     }
   }
   return [];
+}
+
+interface GetLogsInBatchesArgs<TAbiEvents extends AbiEvent[] | undefined>
+  extends GetLogsRecursiveArgs<TAbiEvents> {
+  batchSize: number;
 }
 
 /**
@@ -165,14 +195,14 @@ export async function getPastLogsRecursive<
  * @param batchSize
  * @returns
  */
-async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>(
-  client: PublicClient,
-  events: TAbiEvents,
-  address: Address,
-  fromBlock: bigint,
-  toBlock: bigint,
-  batchSize: number,
-) {
+async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
+  client,
+  events,
+  address,
+  fromBlock,
+  toBlock,
+  batchSize,
+}: GetLogsInBatchesArgs<TAbiEvents>) {
   const logs = [];
   for (let i = Number(fromBlock); i < Number(toBlock); i = i + batchSize) {
     const logsBatch = await client.getLogs({

@@ -52,6 +52,7 @@
   },
   "dependencies": {
     "bs58": "^5.0.0",
+    "gray-matter": "^4.0.3",
     "tsx": "^4.4.0"
   },
   "peerDependencies": {

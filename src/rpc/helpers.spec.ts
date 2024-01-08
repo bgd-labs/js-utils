@@ -4,7 +4,7 @@ import {
   getBlockAtTimestamp,
   getPastLogsRecursive,
 } from './helpers';
-import { mainnetClient } from './rpcClients';
+import { mainnetClient } from './clients';
 import { getAbiItem } from 'viem';
 import { IPoolV1_ABI } from './mocks/IPoolV1';
 
@@ -51,7 +51,6 @@ describe('helpers', () => {
         9241022n,
         9341022n,
       );
-      console.log(logs);
 
       expect(logs).toMatchSnapshot();
     },

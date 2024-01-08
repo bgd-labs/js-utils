@@ -174,7 +174,7 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>(
   batchSize: number,
 ) {
   const logs = [];
-  for (let i = Number(fromBlock); i < Number(toBlock); i = i + batchSize) {
+  for (let i = Number(fromBlock); i < Number(toBlock); i = i + batchSize + 1) {
     const logsBatch = await client.getLogs({
       fromBlock: BigInt(i),
       toBlock:

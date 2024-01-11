@@ -21,7 +21,7 @@ const commonConfig = { timeout: 30_000 };
 
 export const mainnetClient = createPublicClient({
   chain: mainnet,
-  transport: http('https://eth.llamarpc.com', commonConfig), //process.env.RPC_MAINNET),
+  transport: http(process.env.RPC_MAINNET, commonConfig),
 });
 
 export const arbitrumClient = createPublicClient({

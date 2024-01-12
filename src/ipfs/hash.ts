@@ -1,5 +1,5 @@
-import { encode } from 'bs58';
+import bs58 from 'bs58';
 
 export function baseToCidv0(hash: string) {
-  return encode(Buffer.from(`1220${hash.slice(2)}`, 'hex'));
+  return bs58.encode(Buffer.from(`1220${hash.slice(2)}`, 'hex'));
 }

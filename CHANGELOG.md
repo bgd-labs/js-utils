@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/bgd-labs/js-utils/compare/v1.0.1...v1.0.2) (2024-01-12)
+
+
+### Bug Fixes
+
+* use new ci ([#7](https://github.com/bgd-labs/js-utils/issues/7)) ([6613c10](https://github.com/bgd-labs/js-utils/commit/6613c1080fe277ca788370353aa1769919c5263e))
+
 ## [1.0.1](https://github.com/bgd-labs/js-utils/compare/v1.0.0...v1.0.1) (2024-01-12)
 
 

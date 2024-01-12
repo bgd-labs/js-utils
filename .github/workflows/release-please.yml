@@ -30,5 +30,4 @@ jobs:
     needs:
       - test-node
       - release-please
-    secrets:
-      NODE_AUTH_TOKEN: ${{ secrets.NODE_AUTH_TOKEN }}
+    secrets: inherit

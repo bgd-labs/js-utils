@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`helpers > getPastLogsRecursive 1`] = `
+exports[`helpers > getLogs should use batching for known rpcs 1`] = `
 [
   {
     "address": "0x398ec7346dcd622edc5ae82352f02be94c62d119",

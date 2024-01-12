@@ -1,4 +1,4 @@
-import { Address, GetLogsReturnType, PublicClient } from 'viem';
+import { Address, GetLogsReturnType, PublicClient, Transport } from 'viem';
 import type { Abi, AbiEvent } from 'abitype';
 
 interface GetContractDeploymentBlockArgs {
@@ -110,12 +110,64 @@ export async function getBlockAtTimestamp({
   throw new Error('Could not find matching block');
 }
 
-interface GetLogsRecursiveArgs<TAbiEvents extends AbiEvent[] | undefined> {
+interface GetLogsArgs<TAbiEvents extends AbiEvent[] | undefined> {
   client: PublicClient;
   events: TAbiEvents;
   address: Address;
   fromBlock: bigint;
   toBlock: bigint;
+}
+
+export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
+  client,
+  events,
+  address,
+  fromBlock,
+  toBlock,
+}: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
+  if (client.transport.key === 'http') {
+    const url: string = client.transport.url;
+    console.log(url);
+    if (/llamarpc/.test(url))
+      return getLogsInBatches({
+        client,
+        events,
+        address,
+        fromBlock,
+        toBlock,
+        batchSize: 100_000,
+      });
+    if (/quiknode/.test(url))
+      return getLogsInBatches({
+        client,
+        events,
+        address,
+        fromBlock,
+        toBlock,
+        batchSize: 10_000,
+      });
+    // alchemy behaves different to other rpcs as it allows querying with infinite block range as long as the response size is below a certain threshold
+    if (/alchemy/.test(url)) {
+      try {
+        return await client.getLogs({
+          fromBlock,
+          toBlock,
+          events,
+          address,
+        });
+      } catch (e) {
+        return getLogsInBatches({
+          client,
+          events,
+          address,
+          fromBlock,
+          toBlock,
+          batchSize: 2_000,
+        });
+      }
+    }
+  }
+  return getLogsRecursive({ client, events, address, fromBlock, toBlock });
 }
 
 /**
@@ -129,9 +181,7 @@ export async function getLogsRecursive<
   address,
   fromBlock,
   toBlock,
-}: GetLogsRecursiveArgs<TAbiEvents>): Promise<
-  GetLogsReturnType<undefined, TAbiEvents>
-> {
+}: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
   if (fromBlock <= toBlock) {
     try {
       const logs = await client.getLogs({
@@ -142,38 +192,6 @@ export async function getLogsRecursive<
       });
       return logs;
     } catch (error: any) {
-      // quicknode style errors
-      if (
-        error.message &&
-        (error.message as string).includes(
-          'eth_getLogs is limited to a 10,000 range',
-        )
-      ) {
-        return getLogsInBatches({
-          client,
-          events,
-          address,
-          fromBlock,
-          toBlock,
-          batchSize: 10000,
-        });
-      }
-      // llama style error
-      if (
-        error.message &&
-        (error.message as string).includes(
-          'query exceeds max block range 100000',
-        )
-      ) {
-        return getLogsInBatches({
-          client,
-          events,
-          address,
-          fromBlock,
-          toBlock,
-          batchSize: 100000,
-        });
-      }
       // divide & conquer when issue/limit is now known
       const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
       const arr1 = await getLogsRecursive({
@@ -197,7 +215,7 @@ export async function getLogsRecursive<
 }
 
 interface GetLogsInBatchesArgs<TAbiEvents extends AbiEvent[] | undefined>
-  extends GetLogsRecursiveArgs<TAbiEvents> {
+  extends GetLogsArgs<TAbiEvents> {
   batchSize: number;
 }
 

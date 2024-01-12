@@ -1,12 +1,14 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import {
   getContractDeploymentBlock,
   getBlockAtTimestamp,
   getLogsRecursive,
+  getLogs,
 } from './helpers';
 import { mainnetClient } from './clients';
-import { getAbiItem } from 'viem';
+import { createPublicClient, fallback, getAbiItem, http } from 'viem';
 import { IPoolV1_ABI } from './mocks/IPoolV1';
+import { mainnet } from 'viem/chains';
 
 describe('helpers', () => {
   it(
@@ -42,16 +44,16 @@ describe('helpers', () => {
   });
 
   it(
-    'getPastLogsRecursive',
+    'getLogs should use batching for known rpcs',
     async () => {
-      const logs = await getLogsRecursive({
+      const logs = await getLogs({
         client: mainnetClient,
         events: [getAbiItem({ abi: IPoolV1_ABI, name: 'Borrow' })],
         address: '0x398eC7346DcD622eDc5ae82352F02bE94C62d119', // v1 pool
         fromBlock: 9241022n,
         toBlock: 9281022n,
       });
-
+      expect(logs.length).gt(0);
       expect(logs).toMatchSnapshot();
     },
     { timeout: 30000 },

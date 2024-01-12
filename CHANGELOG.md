@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/bgd-labs/js-utils/compare/v1.0.2...v1.0.3) (2024-01-12)
+
+
+### Bug Fixes
+
+* bs58 import ([#9](https://github.com/bgd-labs/js-utils/issues/9)) ([d4bc603](https://github.com/bgd-labs/js-utils/commit/d4bc603c359d6e00252849298d35802c43d56ed2))
+
 ## [1.0.2](https://github.com/bgd-labs/js-utils/compare/v1.0.1...v1.0.2) (2024-01-12)
 
 

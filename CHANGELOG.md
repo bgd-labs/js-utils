@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.1](https://github.com/bgd-labs/js-utils/compare/v1.0.0...v1.0.1) (2024-01-12)
+
+
+### Bug Fixes
+
+* log error ([#5](https://github.com/bgd-labs/js-utils/issues/5)) ([1990b2b](https://github.com/bgd-labs/js-utils/commit/1990b2b511361bca2347bb56f09e354193dcf47f))
+
 ## 1.0.0 (2024-01-08)
 
 

@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.5](https://github.com/bgd-labs/js-utils/compare/v1.0.4...v1.0.5) (2024-01-15)
+
+
+### Bug Fixes
+
+* add harmony client ([#13](https://github.com/bgd-labs/js-utils/issues/13)) ([2dd6ac8](https://github.com/bgd-labs/js-utils/commit/2dd6ac88c6689973425929cb2ce8aa66699c9b61))
+
 ## [1.0.4](https://github.com/bgd-labs/js-utils/compare/v1.0.3...v1.0.4) (2024-01-15)
 
 

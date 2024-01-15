@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.4](https://github.com/bgd-labs/js-utils/compare/v1.0.3...v1.0.4) (2024-01-15)
+
+
+### Bug Fixes
+
+* add missing testnet ([#11](https://github.com/bgd-labs/js-utils/issues/11)) ([396331b](https://github.com/bgd-labs/js-utils/commit/396331b5912c96ec99f1c335a4bbc96bfd86242e))
+
 ## [1.0.3](https://github.com/bgd-labs/js-utils/compare/v1.0.2...v1.0.3) (2024-01-12)
 
 

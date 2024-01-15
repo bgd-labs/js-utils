@@ -16,6 +16,7 @@ import {
   scroll,
   avalancheFuji,
   polygonMumbai,
+  harmonyOne,
 } from 'viem/chains';
 import { ChainId } from './chainIds';
 
@@ -101,6 +102,11 @@ export const mumbaiClient = createPublicClient({
   transport: http(process.env.RPC_MUMBAI, commonConfig),
 });
 
+export const harmonyClient = createPublicClient({
+  chain: harmonyOne,
+  transport: http(process.env.RPC_MUMBAI, commonConfig),
+});
+
 export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.mainnet]: mainnetClient,
   [ChainId.arbitrum_one]: arbitrumClient,
@@ -118,4 +124,5 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.zkEVM]: zkEVMClient,
   [ChainId.fuji]: fujiClient,
   [ChainId.mumbai]: mumbaiClient,
+  [ChainId.harmony]: harmonyClient,
 } as const;

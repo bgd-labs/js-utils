@@ -14,6 +14,8 @@ import {
   gnosis,
   polygonZkEvm,
   scroll,
+  avalancheFuji,
+  polygonMumbai,
 } from 'viem/chains';
 import { ChainId } from './chainIds';
 
@@ -89,6 +91,16 @@ export const zkEVMClient = createPublicClient({
   transport: http(process.env.RPC_ZKEVM, commonConfig),
 });
 
+export const fujiClient = createPublicClient({
+  chain: avalancheFuji,
+  transport: http(process.env.RPC_FUJI, commonConfig),
+});
+
+export const mumbaiClient = createPublicClient({
+  chain: polygonMumbai,
+  transport: http(process.env.RPC_MUMBAI, commonConfig),
+});
+
 export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.mainnet]: mainnetClient,
   [ChainId.arbitrum_one]: arbitrumClient,
@@ -104,4 +116,6 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.gnosis]: gnosisClient,
   [ChainId.scroll]: scrollClient,
   [ChainId.zkEVM]: zkEVMClient,
+  [ChainId.fuji]: fujiClient,
+  [ChainId.mumbai]: mumbaiClient,
 } as const;

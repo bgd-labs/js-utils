@@ -17,6 +17,11 @@ import {
   avalancheFuji,
   polygonMumbai,
   harmonyOne,
+  arbitrumGoerli,
+  optimismGoerli,
+  scrollTestnet,
+  scrollSepolia,
+  fantomTestnet,
 } from 'viem/chains';
 import { ChainId } from './chainIds';
 
@@ -72,16 +77,6 @@ export const gnosisClient = createPublicClient({
   transport: http(process.env.RPC_GNOSIS, commonConfig),
 });
 
-export const sepoliaClient = createPublicClient({
-  chain: sepolia,
-  transport: http(process.env.RPC_SEPOLIA, commonConfig),
-});
-
-export const goerliClient = createPublicClient({
-  chain: goerli,
-  transport: http(process.env.RPC_GOERLI, commonConfig),
-});
-
 export const scrollClient = createPublicClient({
   chain: scroll,
   transport: http(process.env.RPC_SCROLL, commonConfig),
@@ -92,6 +87,12 @@ export const zkEVMClient = createPublicClient({
   transport: http(process.env.RPC_ZKEVM, commonConfig),
 });
 
+export const harmonyClient = createPublicClient({
+  chain: harmonyOne,
+  transport: http(process.env.RPC_HARMONY, commonConfig),
+});
+
+// testnets
 export const fujiClient = createPublicClient({
   chain: avalancheFuji,
   transport: http(process.env.RPC_FUJI, commonConfig),
@@ -102,25 +103,60 @@ export const mumbaiClient = createPublicClient({
   transport: http(process.env.RPC_MUMBAI, commonConfig),
 });
 
-export const harmonyClient = createPublicClient({
-  chain: harmonyOne,
-  transport: http(process.env.RPC_MUMBAI, commonConfig),
+export const sepoliaClient = createPublicClient({
+  chain: sepolia,
+  transport: http(process.env.RPC_SEPOLIA, commonConfig),
+});
+
+export const goerliClient = createPublicClient({
+  chain: goerli,
+  transport: http(process.env.RPC_GOERLI, commonConfig),
+});
+
+export const arbitrumGoerliClient = createPublicClient({
+  chain: arbitrumGoerli,
+  transport: http(process.env.RPC_ARBITRUM_GOERLI, commonConfig),
+});
+
+export const optimismGoerliClient = createPublicClient({
+  chain: optimismGoerli,
+  transport: http(process.env.RPC_OPTIMISM_GOERLI, commonConfig),
+});
+
+// export const scrollAlphaClient = createPublicClient({
+//   chain: scrollTestnet,
+//   transport: http(process.env.RPC_SCROLL_ALPHA, commonConfig),
+// });
+
+export const scrollSepoliaClient = createPublicClient({
+  chain: scrollSepolia,
+  transport: http(process.env.RPC_SCROLL_SEPOLIA, commonConfig),
+});
+
+export const fantomTestnetClient = createPublicClient({
+  chain: fantomTestnet,
+  transport: http(process.env.RPC_FANTOM_TESTNET, commonConfig),
 });
 
 export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.mainnet]: mainnetClient,
   [ChainId.arbitrum_one]: arbitrumClient,
+  [ChainId.arbitrum_goerli]: arbitrumGoerliClient,
   [ChainId.polygon]: polygonClient,
   [ChainId.optimism]: optimismClient,
+  [ChainId.optimism_goerli]: optimismGoerliClient,
   [ChainId.metis]: metisClient,
   [ChainId.base]: baseClient,
   [ChainId.sepolia]: sepoliaClient,
   [ChainId.goerli]: goerliClient,
   [ChainId.fantom]: fantomClient,
+  [ChainId.fantom_testnet]: fantomTestnetClient,
   [ChainId.bnb]: bnbClient,
   [ChainId.avalanche]: avalancheClient,
   [ChainId.gnosis]: gnosisClient,
   [ChainId.scroll]: scrollClient,
+  // [ChainId.scroll_alpha]: scrollAlphaClient,
+  [ChainId.scroll_sepolia]: scrollSepoliaClient,
   [ChainId.zkEVM]: zkEVMClient,
   [ChainId.fuji]: fujiClient,
   [ChainId.mumbai]: mumbaiClient,

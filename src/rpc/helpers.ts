@@ -238,6 +238,7 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
   }
   const { results } = await PromisePool.for(batches)
     .withConcurrency(5)
+    .useCorrespondingResults()
     .process(async ({ from, to }) => {
       return client.getLogs({
         fromBlock: from,

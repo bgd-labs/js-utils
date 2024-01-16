@@ -236,7 +236,9 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
           : BigInt(i + batchSize - 1),
     });
   }
-  const { results } = await PromisePool.for(batches)
+
+  // TODO: add retry logic
+  const { results, errors } = await PromisePool.for(batches)
     .withConcurrency(5)
     .useCorrespondingResults()
     .process(async ({ from, to }) => {
@@ -247,5 +249,9 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
         address,
       });
     });
+  if (errors.length != 0) {
+    console.log(errors);
+    throw new Error('Error fetching logs');
+  }
   return results.flat();
 }

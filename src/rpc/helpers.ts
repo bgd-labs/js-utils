@@ -127,7 +127,6 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
 }: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
   if (client.transport.key === 'http') {
     const url: string = client.transport.url;
-    console.log(url);
     if (/llamarpc/.test(url))
       return getLogsInBatches({
         client,
@@ -156,6 +155,7 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
           address,
         });
       } catch (e) {
+        if (process.env.VERBOSE) console.log(e);
         return getLogsInBatches({
           client,
           events,

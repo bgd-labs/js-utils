@@ -253,5 +253,5 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
     console.log(errors);
     throw new Error('Error fetching logs');
   }
-  return results.flat();
+  return results.flat() as GetLogsReturnType<undefined, TAbiEvents>;
 }

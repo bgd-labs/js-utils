@@ -1,5 +1,6 @@
 import { Address, GetLogsReturnType, PublicClient, Transport } from 'viem';
 import type { Abi, AbiEvent } from 'abitype';
+import { PromisePool } from '@supercharge/promise-pool';
 
 interface GetContractDeploymentBlockArgs {
   client: PublicClient;
@@ -127,27 +128,13 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
 }: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
   if (client.transport.key === 'http') {
     const url: string = client.transport.url;
-    if (/llamarpc/.test(url))
-      return getLogsInBatches({
-        client,
-        events,
-        address,
-        fromBlock,
-        toBlock,
-        batchSize: 100_000,
-      });
-    if (/quiknode/.test(url))
-      return getLogsInBatches({
-        client,
-        events,
-        address,
-        fromBlock,
-        toBlock,
-        batchSize: 10_000,
-      });
+    let batchSize = 0;
+    if (/llamarpc/.test(url)) batchSize = 100_000;
+    if (/quiknode/.test(url)) batchSize = 10_000;
     // alchemy behaves different to other rpcs as it allows querying with infinite block range as long as the response size is below a certain threshold
     if (/alchemy/.test(url)) {
       try {
+        // TODO: better error handling as alchemy suggests proper ranges
         return await client.getLogs({
           fromBlock,
           toBlock,
@@ -155,16 +142,18 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
           address,
         });
       } catch (e) {
-        if (process.env.VERBOSE) console.log(e);
-        return getLogsInBatches({
-          client,
-          events,
-          address,
-          fromBlock,
-          toBlock,
-          batchSize: 2_000,
-        });
+        batchSize = 2_000;
       }
+    }
+    if (batchSize > 0) {
+      return getLogsInBatches({
+        client,
+        events,
+        address,
+        fromBlock,
+        toBlock,
+        batchSize,
+      });
     }
   }
   return getLogsRecursive({ client, events, address, fromBlock, toBlock });
@@ -237,18 +226,25 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
   toBlock,
   batchSize,
 }: GetLogsInBatchesArgs<TAbiEvents>) {
-  const logs = [];
+  const batches: { from: bigint; to: bigint }[] = [];
   for (let i = Number(fromBlock); i < Number(toBlock); i = i + batchSize) {
-    const logsBatch = await client.getLogs({
-      fromBlock: BigInt(i),
-      toBlock:
+    batches.push({
+      from: BigInt(i),
+      to:
         BigInt(i + batchSize - 1) > toBlock
           ? toBlock
           : BigInt(i + batchSize - 1),
-      events,
-      address,
     });
-    logs.push(...logsBatch);
   }
-  return logs;
+  const { results } = await PromisePool.for(batches)
+    .withConcurrency(5)
+    .process(async ({ from, to }) => {
+      return client.getLogs({
+        fromBlock: from,
+        toBlock: to,
+        events,
+        address,
+      });
+    });
+  return results.flat();
 }

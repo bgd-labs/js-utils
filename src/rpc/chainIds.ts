@@ -9,6 +9,7 @@ export enum ChainId {
   fuji = 43113,
   arbitrum_one = 42161,
   arbitrum_goerli = 421613,
+  arbitrum_sepolia = 421614,
   fantom = 250,
   fantom_testnet = 4002,
   optimism = 10,

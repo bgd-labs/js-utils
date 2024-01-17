@@ -1,8 +1,21 @@
-import { Address, GetLogsReturnType, PublicClient, Transport } from 'viem';
+import {
+  Address,
+  GetLogsReturnType,
+  Client,
+  PublicRpcSchema,
+  PublicActions,
+  Transport,
+  Chain,
+  Account,
+} from 'viem';
 import type { Abi, AbiEvent } from 'abitype';
+import { PromisePool } from '@supercharge/promise-pool';
 
-interface GetContractDeploymentBlockArgs {
-  client: PublicClient;
+interface GetContractDeploymentBlockArgs<
+  T extends PublicRpcSchema = PublicRpcSchema,
+  V extends PublicActions = PublicActions,
+> {
+  client: Client<Transport, Chain, Account | undefined, T, V>;
   contractAddress: Address;
   fromBlock: bigint;
   toBlock: bigint;
@@ -13,7 +26,7 @@ interface GetContractDeploymentBlockArgs {
  * In some cases it's important to know when a contract was first seen onChain.
  * This data is hard to obtain, as it's not indexed data.
  * On way of doing it is recursively checking on an archive node when the code was first seen.
- * @param client a viem PublicClient
+ * @param client a viem Client
  * @param fromBlock a block on which the contract is not yet deployed
  * @param toBlock a block on which the contract is deployed
  * @param contractAddress address of the contract
@@ -58,8 +71,11 @@ export async function getContractDeploymentBlock({
   throw new Error('Could not find contract deployment block');
 }
 
-interface GetBlockAtTimestampArgs {
-  client: PublicClient;
+interface GetBlockAtTimestampArgs<
+  T extends PublicRpcSchema = PublicRpcSchema,
+  V extends PublicActions = PublicActions,
+> {
+  client: Client<Transport, Chain, Account | undefined, T, V>;
   timestamp: bigint;
   fromBlock: bigint;
   toBlock: bigint;
@@ -110,8 +126,12 @@ export async function getBlockAtTimestamp({
   throw new Error('Could not find matching block');
 }
 
-interface GetLogsArgs<TAbiEvents extends AbiEvent[] | undefined> {
-  client: PublicClient;
+interface GetLogsArgs<
+  TAbiEvents extends AbiEvent[] | undefined,
+  T extends PublicRpcSchema = PublicRpcSchema,
+  V extends PublicActions = PublicActions,
+> {
+  client: Client<Transport, Chain, Account | undefined, T, V>;
   events: TAbiEvents;
   address: Address;
   fromBlock: bigint;
@@ -127,28 +147,13 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
 }: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
   if (client.transport.key === 'http') {
     const url: string = client.transport.url;
-    console.log(url);
-    if (/llamarpc/.test(url))
-      return getLogsInBatches({
-        client,
-        events,
-        address,
-        fromBlock,
-        toBlock,
-        batchSize: 100_000,
-      });
-    if (/quiknode/.test(url))
-      return getLogsInBatches({
-        client,
-        events,
-        address,
-        fromBlock,
-        toBlock,
-        batchSize: 10_000,
-      });
+    let batchSize = 0;
+    if (/llamarpc/.test(url)) batchSize = 100_000;
+    if (/quiknode/.test(url)) batchSize = 10_000;
     // alchemy behaves different to other rpcs as it allows querying with infinite block range as long as the response size is below a certain threshold
     if (/alchemy/.test(url)) {
       try {
+        // TODO: better error handling as alchemy suggests proper ranges
         return await client.getLogs({
           fromBlock,
           toBlock,
@@ -156,15 +161,18 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
           address,
         });
       } catch (e) {
-        return getLogsInBatches({
-          client,
-          events,
-          address,
-          fromBlock,
-          toBlock,
-          batchSize: 2_000,
-        });
+        batchSize = 2_000;
       }
+    }
+    if (batchSize > 0) {
+      return getLogsInBatches({
+        client,
+        events,
+        address,
+        fromBlock,
+        toBlock,
+        batchSize,
+      });
     }
   }
   return getLogsRecursive({ client, events, address, fromBlock, toBlock });
@@ -237,18 +245,32 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
   toBlock,
   batchSize,
 }: GetLogsInBatchesArgs<TAbiEvents>) {
-  const logs = [];
+  const batches: { from: bigint; to: bigint }[] = [];
   for (let i = Number(fromBlock); i < Number(toBlock); i = i + batchSize) {
-    const logsBatch = await client.getLogs({
-      fromBlock: BigInt(i),
-      toBlock:
+    batches.push({
+      from: BigInt(i),
+      to:
         BigInt(i + batchSize - 1) > toBlock
           ? toBlock
           : BigInt(i + batchSize - 1),
-      events,
-      address,
     });
-    logs.push(...logsBatch);
   }
-  return logs;
+
+  // TODO: add retry logic
+  const { results, errors } = await PromisePool.for(batches)
+    .withConcurrency(5)
+    .useCorrespondingResults()
+    .process(async ({ from, to }) => {
+      return client.getLogs({
+        fromBlock: from,
+        toBlock: to,
+        events,
+        address,
+      });
+    });
+  if (errors.length != 0) {
+    console.log(errors);
+    throw new Error('Error fetching logs');
+  }
+  return results.flat() as GetLogsReturnType<undefined, TAbiEvents>;
 }

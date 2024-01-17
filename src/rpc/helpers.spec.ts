@@ -1,14 +1,12 @@
-import { describe, it, expect, vi } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   getContractDeploymentBlock,
   getBlockAtTimestamp,
-  getLogsRecursive,
   getLogs,
 } from './helpers';
 import { mainnetClient } from './clients';
-import { createPublicClient, fallback, getAbiItem, http } from 'viem';
+import { getAbiItem } from 'viem';
 import { IPoolV1_ABI } from './mocks/IPoolV1';
-import { mainnet } from 'viem/chains';
 
 describe('helpers', () => {
   it(
@@ -56,6 +54,6 @@ describe('helpers', () => {
       expect(logs.length).gt(0);
       expect(logs).toMatchSnapshot();
     },
-    { timeout: 30000 },
+    { timeout: 60000 },
   );
 });

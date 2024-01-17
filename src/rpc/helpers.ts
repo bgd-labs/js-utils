@@ -1,9 +1,21 @@
-import { Address, GetLogsReturnType, PublicClient, Transport } from 'viem';
+import {
+  Address,
+  GetLogsReturnType,
+  Client,
+  PublicRpcSchema,
+  PublicActions,
+  Transport,
+  Chain,
+  Account,
+} from 'viem';
 import type { Abi, AbiEvent } from 'abitype';
 import { PromisePool } from '@supercharge/promise-pool';
 
-interface GetContractDeploymentBlockArgs {
-  client: PublicClient;
+interface GetContractDeploymentBlockArgs<
+  T extends PublicRpcSchema = PublicRpcSchema,
+  V extends PublicActions = PublicActions,
+> {
+  client: Client<Transport, Chain, Account | undefined, T, V>;
   contractAddress: Address;
   fromBlock: bigint;
   toBlock: bigint;
@@ -14,7 +26,7 @@ interface GetContractDeploymentBlockArgs {
  * In some cases it's important to know when a contract was first seen onChain.
  * This data is hard to obtain, as it's not indexed data.
  * On way of doing it is recursively checking on an archive node when the code was first seen.
- * @param client a viem PublicClient
+ * @param client a viem Client
  * @param fromBlock a block on which the contract is not yet deployed
  * @param toBlock a block on which the contract is deployed
  * @param contractAddress address of the contract
@@ -59,8 +71,11 @@ export async function getContractDeploymentBlock({
   throw new Error('Could not find contract deployment block');
 }
 
-interface GetBlockAtTimestampArgs {
-  client: PublicClient;
+interface GetBlockAtTimestampArgs<
+  T extends PublicRpcSchema = PublicRpcSchema,
+  V extends PublicActions = PublicActions,
+> {
+  client: Client<Transport, Chain, Account | undefined, T, V>;
   timestamp: bigint;
   fromBlock: bigint;
   toBlock: bigint;
@@ -111,8 +126,12 @@ export async function getBlockAtTimestamp({
   throw new Error('Could not find matching block');
 }
 
-interface GetLogsArgs<TAbiEvents extends AbiEvent[] | undefined> {
-  client: PublicClient;
+interface GetLogsArgs<
+  TAbiEvents extends AbiEvent[] | undefined,
+  T extends PublicRpcSchema = PublicRpcSchema,
+  V extends PublicActions = PublicActions,
+> {
+  client: Client<Transport, Chain, Account | undefined, T, V>;
   events: TAbiEvents;
   address: Address;
   fromBlock: bigint;

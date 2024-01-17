@@ -22,6 +22,7 @@ import {
   scrollTestnet,
   scrollSepolia,
   fantomTestnet,
+  arbitrumSepolia,
 } from 'viem/chains';
 import { ChainId } from './chainIds';
 
@@ -118,6 +119,11 @@ export const arbitrumGoerliClient = createPublicClient({
   transport: http(process.env.RPC_ARBITRUM_GOERLI, commonConfig),
 });
 
+export const arbitrumSepoliaClient = createPublicClient({
+  chain: arbitrumSepolia,
+  transport: http(process.env.RPC_ARBITRUM_SEPOLIA, commonConfig),
+});
+
 export const optimismGoerliClient = createPublicClient({
   chain: optimismGoerli,
   transport: http(process.env.RPC_OPTIMISM_GOERLI, commonConfig),
@@ -142,6 +148,7 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.mainnet]: mainnetClient,
   [ChainId.arbitrum_one]: arbitrumClient,
   [ChainId.arbitrum_goerli]: arbitrumGoerliClient,
+  [ChainId.arbitrum_sepolia]: arbitrumSepoliaClient,
   [ChainId.polygon]: polygonClient,
   [ChainId.optimism]: optimismClient,
   [ChainId.optimism_goerli]: optimismGoerliClient,

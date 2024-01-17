@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.0](https://github.com/bgd-labs/js-utils/compare/v1.0.6...v1.1.0) (2024-01-17)
+
+
+### Features
+
+* getLogs promise pool ([#17](https://github.com/bgd-labs/js-utils/issues/17)) ([2e15c1d](https://github.com/bgd-labs/js-utils/commit/2e15c1d74f1c8ca50f6ad7e9636634b5c9c647bc))
+
 ## [1.0.6](https://github.com/bgd-labs/js-utils/compare/v1.0.5...v1.0.6) (2024-01-15)
 
 

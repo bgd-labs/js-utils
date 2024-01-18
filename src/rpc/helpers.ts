@@ -2,20 +2,13 @@ import {
   Address,
   GetLogsReturnType,
   Client,
-  PublicRpcSchema,
-  PublicActions,
-  Transport,
-  Chain,
-  Account,
 } from 'viem';
-import type { Abi, AbiEvent } from 'abitype';
+import type { AbiEvent } from 'abitype';
 import { PromisePool } from '@supercharge/promise-pool';
+import { getBlock, getBytecode, getLogs as viemGetLogs } from 'viem/actions';
 
-interface GetContractDeploymentBlockArgs<
-  T extends PublicRpcSchema = PublicRpcSchema,
-  V extends PublicActions = PublicActions,
-> {
-  client: Client<Transport, Chain, Account | undefined, T, V>;
+interface GetContractDeploymentBlockArgs {
+  client: Client;
   contractAddress: Address;
   fromBlock: bigint;
   toBlock: bigint;
@@ -43,7 +36,7 @@ export async function getContractDeploymentBlock({
   if (fromBlock == toBlock) return fromBlock;
   if (fromBlock < toBlock) {
     const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
-    const codeMid = await client.getBytecode({
+    const codeMid = await getBytecode(client, {
       blockNumber: midBlock,
       address: contractAddress,
     });
@@ -71,11 +64,8 @@ export async function getContractDeploymentBlock({
   throw new Error('Could not find contract deployment block');
 }
 
-interface GetBlockAtTimestampArgs<
-  T extends PublicRpcSchema = PublicRpcSchema,
-  V extends PublicActions = PublicActions,
-> {
-  client: Client<Transport, Chain, Account | undefined, T, V>;
+interface GetBlockAtTimestampArgs {
+  client: Client;
   timestamp: bigint;
   fromBlock: bigint;
   toBlock: bigint;
@@ -100,7 +90,7 @@ export async function getBlockAtTimestamp({
 }: GetBlockAtTimestampArgs) {
   if (fromBlock <= toBlock) {
     const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
-    const block = await client.getBlock({ blockNumber: midBlock });
+    const block = await getBlock(client, { blockNumber: midBlock });
     if (block.timestamp > timestamp) {
       return getBlockAtTimestamp({
         client,
@@ -128,10 +118,8 @@ export async function getBlockAtTimestamp({
 
 interface GetLogsArgs<
   TAbiEvents extends AbiEvent[] | undefined,
-  T extends PublicRpcSchema = PublicRpcSchema,
-  V extends PublicActions = PublicActions,
 > {
-  client: Client<Transport, Chain, Account | undefined, T, V>;
+  client: Client;
   events: TAbiEvents;
   address: Address;
   fromBlock: bigint;
@@ -154,7 +142,7 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
     if (/alchemy/.test(url)) {
       try {
         // TODO: better error handling as alchemy suggests proper ranges
-        return await client.getLogs({
+        return await viemGetLogs(client, {
           fromBlock,
           toBlock,
           events,
@@ -192,7 +180,7 @@ export async function getLogsRecursive<
 }: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
   if (fromBlock <= toBlock) {
     try {
-      const logs = await client.getLogs({
+      const logs = await viemGetLogs(client,{
         fromBlock,
         toBlock,
         events,
@@ -261,7 +249,7 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
     .withConcurrency(5)
     .useCorrespondingResults()
     .process(async ({ from, to }) => {
-      return client.getLogs({
+      return viemGetLogs(client,{
         fromBlock: from,
         toBlock: to,
         events,

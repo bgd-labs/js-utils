@@ -1,244 +1,164 @@
-import {
-  Chain,
-  Client,
-  createClient,
-  fallback,
-  FallbackTransportConfig,
-  http,
-  HttpTransportConfig,
-} from 'viem';
+import { PublicClient, createPublicClient, http } from 'viem';
 import {
   mainnet,
-  polygon,
-  avalanche,
-  bsc,
-  base,
   arbitrum,
-  metis,
+  polygon,
   optimism,
-  gnosis,
-  fantom,
-  polygonMumbai,
-  scroll,
-  arbitrumGoerli,
+  metis,
+  base,
+  sepolia,
   goerli,
-  arbitrumSepolia,
-  bscTestnet,
+  bsc,
+  fantom,
+  avalanche,
+  gnosis,
+  polygonZkEvm,
+  scroll,
+  avalancheFuji,
+  polygonMumbai,
+  harmonyOne,
+  arbitrumGoerli,
   optimismGoerli,
   scrollTestnet,
   scrollSepolia,
   fantomTestnet,
-  avalancheFuji,
-  harmonyOne,
-  polygonZkEvm,
-  sepolia,
 } from 'viem/chains';
+import { ChainId } from './chainIds';
 
-const viemChains = {
-  mainnet,
-  polygon,
-  avalanche,
-  bsc,
-  base,
-  arbitrum,
-  metis,
-  optimism,
-  gnosis,
-  fantom,
-  polygonMumbai,
-  scroll,
-  arbitrumGoerli,
-  goerli,
-  arbitrumSepolia,
-  bscTestnet,
-  optimismGoerli,
-  scrollTestnet,
-  scrollSepolia,
-  fantomTestnet,
-  avalancheFuji,
-  harmonyOne,
-  polygonZkEvm,
-  sepolia,
-};
+const commonConfig = { timeout: 30_000 };
 
-export const VIEM_CHAINS: Record<number, Chain> = Object.values(viemChains).reduce(
-  (acc, chain) => {
-    return { ...acc, [chain.id]: chain };
-  },
-  {},
-);
+export const mainnetClient = createPublicClient({
+  chain: mainnet,
+  transport: http(process.env.RPC_MAINNET, commonConfig),
+});
 
-const commonHttpConfig = { timeout: 30_000 };
+export const arbitrumClient = createPublicClient({
+  chain: arbitrum,
+  transport: http(process.env.RPC_ARBITRUM, commonConfig),
+});
 
-export const commonFallBackConfig = {
-  rank: false,
-  retryDelay: 500,
-  retryCount: 5,
-};
+export const polygonClient = createPublicClient({
+  chain: polygon,
+  transport: http(process.env.RPC_POLYGON, commonConfig),
+});
 
-function checkEnv(envVar?: string) {
-  return envVar || '';
-}
+export const optimismClient = createPublicClient({
+  chain: optimism,
+  transport: http(process.env.RPC_OPTIMISM, commonConfig),
+});
 
-// chains RPC urls
-const rpcUrls: Record<number, string[]> = {
-  [mainnet.id]: [
-    checkEnv(process.env.RPC_MAINNET),
-    'https://blissful-purple-sky.quiknode.pro',
-    'https://rpc.ankr.com/eth',
-    'https://eth.nodeconnect.org',
-  ],
-  [polygon.id]: [
-    checkEnv(process.env.RPC_POLYGON),
-    'https://polygon.blockpi.network/v1/rpc/public',
-    'https://polygon.llamarpc.com',
-    'https://polygon-bor.publicnode.com',
-    'https://endpoints.omniatech.io/v1/matic/mainnet/public',
-  ],
-  [avalanche.id]: [
-    checkEnv(process.env.RPC_AVALANCHE),
-    'https://api.avax.network/ext/bc/C/rpc',
-    'https://avalanche.drpc.org',
-    'https://avax.meowrpc.com',
-    'https://avalanche.blockpi.network/v1/rpc/public',
-  ],
-  [bsc.id]: [
-    checkEnv(process.env.RPC_BNB),
-    'https://binance.llamarpc.com',
-    'https://bsc.meowrpc.com',
-  ],
-  [base.id]: [
-    checkEnv(process.env.RPC_BASE),
-    'https://base.blockpi.network/v1/rpc/public',
-    'https://base.llamarpc.com',
-    'https://base-mainnet.public.blastapi.io',
-    'https://base.meowrpc.com',
-  ],
-  [arbitrum.id]: [
-    checkEnv(process.env.RPC_ARBITRUM),
-    'https://arbitrum.llamarpc.com',
-    'https://arb-mainnet-public.unifra.io',
-    'https://endpoints.omniatech.io/v1/arbitrum/one/public',
-  ],
-  [metis.id]: [
-    checkEnv(process.env.RPC_METIS),
-    'https://metis-mainnet.public.blastapi.io',
-    'https://metis.api.onfinality.io/public',
-  ],
-  [optimism.id]: [
-    checkEnv(process.env.RPC_OPTIMISM),
-    'https://optimism.blockpi.network/v1/rpc/public',
-    'https://optimism.llamarpc.com',
-    'https://optimism.publicnode.com',
-  ],
-  [gnosis.id]: [
-    checkEnv(process.env.RPC_GNOSIS),
-    'https://gnosis.blockpi.network/v1/rpc/public',
-    'https://gnosis-mainnet.public.blastapi.io',
-  ],
-  [fantom.id]: [checkEnv(process.env.RPC_FANTOM)],
-  [scroll.id]: [checkEnv(process.env.RPC_SCROLL)],
-  [polygonZkEvm.id]: [checkEnv(process.env.RPC_ZKEVM)],
-  [harmonyOne.id]: [checkEnv(process.env.RPC_HARMONY)],
-  // testnets
-  [goerli.id]: [
-    checkEnv(process.env.RPC_GOERLI),
-    'https://ethereum-goerli.publicnode.com',
-    'https://goerli.blockpi.network/v1/rpc/public',
-    'https://eth-goerli.public.blastapi.io',
-  ],
-  [sepolia.id]: [
-    checkEnv(process.env.RPC_SEPOLIA),
-    'https://endpoints.omniatech.io/v1/eth/sepolia/public',
-    'https://ethereum-sepolia.blockpi.network/v1/rpc/public',
-    'https://ethereum-sepolia.publicnode.com',
-  ],
-  [polygonMumbai.id]: [
-    checkEnv(process.env.RPC_MUMBAI),
-    'https://rpc.ankr.com/polygon_mumbai',
-  ],
-  [avalancheFuji.id]: [
-    checkEnv(process.env.RPC_FUJI),
-    'https://api.avax-test.network/ext/bc/C/rpc',
-    'https://avalanche-fuji-c-chain.publicnode.com',
-    'https://rpc.ankr.com/avalanche_fuji',
-  ],
-  [bscTestnet.id]: ['https://data-seed-prebsc-1-s1.bnbchain.org:8545'],
-  [arbitrumGoerli.id]: [checkEnv(process.env.RPC_ARBITRUM_GOERLI)],
-  [arbitrumSepolia.id]: [checkEnv(process.env.RPC_ARBITRUM_SEPOLIA)],
-  [optimismGoerli.id]: [checkEnv(process.env.RPC_OPTIMISM_GOERLI)],
-  [scrollTestnet.id]: [checkEnv(process.env.RPC_SCROLL_ALPHA)],
-  [scrollSepolia.id]: [checkEnv(process.env.RPC_SCROLL_SEPOLIA)],
-  [fantomTestnet.id]: [checkEnv(process.env.RPC_FANTOM_TESTNET)],
-};
+export const metisClient = createPublicClient({
+  chain: metis,
+  transport: http(process.env.RPC_METIS, commonConfig),
+});
 
-export const createViemClient = ({
-  chain,
-  rpcUrl,
-  withoutFallback,
-  httpConfig,
-  fallBackConfig,
-}: {
-  chain: Chain;
-  rpcUrl: string;
-  withoutFallback?: boolean;
-  httpConfig?: HttpTransportConfig;
-  fallBackConfig?: FallbackTransportConfig;
-}) =>
-  createClient({
-    batch: {
-      multicall: true,
-    },
-    chain: chain,
-    transport: withoutFallback
-      ? http(rpcUrl, httpConfig || commonHttpConfig)
-      : fallback(
-        [
-          http(rpcUrl, httpConfig || commonHttpConfig),
-          ...chain.rpcUrls.default.http
-            .filter((url) => url !== rpcUrl)
-            .map((url) => http(url, httpConfig || commonHttpConfig)),
-        ],
-        fallBackConfig || commonFallBackConfig,
-      ),
-  });
+export const baseClient = createPublicClient({
+  chain: base,
+  transport: http(process.env.RPC_BASE, commonConfig),
+});
 
-export const CHAIN_ID_CLIENT_MAP: Record<number, Client> = Object.entries(
-  rpcUrls,
-).reduce((acc, rpcUrlObject) => {
-  const chainId = Number(rpcUrlObject[0]);
-  const localRpcUrls = rpcUrlObject[1];
-  const initialChain = VIEM_CHAINS[chainId];
+export const fantomClient = createPublicClient({
+  chain: fantom,
+  transport: http(process.env.RPC_FANTOM, commonConfig),
+});
 
-  if (!initialChain) {
-    throw new Error(`Can't set chain for this RPC's urls. Check if you import chain for this chain id ${chainId}`);
-  }
+export const bnbClient = createPublicClient({
+  chain: bsc,
+  transport: http(process.env.RPC_BNB, commonConfig),
+});
 
-  const chain = {
-    ...initialChain,
-    rpcUrls: {
-      ...initialChain.rpcUrls,
-      default: {
-        ...initialChain.rpcUrls.default,
-        http: [!!localRpcUrls[0] ? localRpcUrls[0] : initialChain.rpcUrls.default.http[0], ...localRpcUrls],
-      },
-    },
-    // if need change gnosis explorer link, then uncomment `blockExplorers` object
-    // blockExplorers: {
-    //   ...initialChain.blockExplorers,
-    //   default:
-    //     initialChain.id === gnosis.id
-    //       ? { name: 'Gnosis chain explorer', url: 'https://gnosisscan.io' }
-    //       : initialChain.blockExplorers?.default ||
-    //         mainnet.blockExplorers.default,
-    // },
-  };
+export const avalancheClient = createPublicClient({
+  chain: avalanche,
+  transport: http(process.env.RPC_AVALANCHE, commonConfig),
+});
 
-  return {
-    ...acc,
-    [chainId]: createViemClient({
-      chain,
-      rpcUrl: rpcUrls[chain.id][0],
-    }),
-  };
-}, {});
+export const gnosisClient = createPublicClient({
+  chain: gnosis,
+  transport: http(process.env.RPC_GNOSIS, commonConfig),
+});
+
+export const scrollClient = createPublicClient({
+  chain: scroll,
+  transport: http(process.env.RPC_SCROLL, commonConfig),
+});
+
+export const zkEVMClient = createPublicClient({
+  chain: polygonZkEvm,
+  transport: http(process.env.RPC_ZKEVM, commonConfig),
+});
+
+export const harmonyClient = createPublicClient({
+  chain: harmonyOne,
+  transport: http(process.env.RPC_HARMONY, commonConfig),
+});
+
+// testnets
+export const fujiClient = createPublicClient({
+  chain: avalancheFuji,
+  transport: http(process.env.RPC_FUJI, commonConfig),
+});
+
+export const mumbaiClient = createPublicClient({
+  chain: polygonMumbai,
+  transport: http(process.env.RPC_MUMBAI, commonConfig),
+});
+
+export const sepoliaClient = createPublicClient({
+  chain: sepolia,
+  transport: http(process.env.RPC_SEPOLIA, commonConfig),
+});
+
+export const goerliClient = createPublicClient({
+  chain: goerli,
+  transport: http(process.env.RPC_GOERLI, commonConfig),
+});
+
+export const arbitrumGoerliClient = createPublicClient({
+  chain: arbitrumGoerli,
+  transport: http(process.env.RPC_ARBITRUM_GOERLI, commonConfig),
+});
+
+export const optimismGoerliClient = createPublicClient({
+  chain: optimismGoerli,
+  transport: http(process.env.RPC_OPTIMISM_GOERLI, commonConfig),
+});
+
+// export const scrollAlphaClient = createPublicClient({
+//   chain: scrollTestnet,
+//   transport: http(process.env.RPC_SCROLL_ALPHA, commonConfig),
+// });
+
+export const scrollSepoliaClient = createPublicClient({
+  chain: scrollSepolia,
+  transport: http(process.env.RPC_SCROLL_SEPOLIA, commonConfig),
+});
+
+export const fantomTestnetClient = createPublicClient({
+  chain: fantomTestnet,
+  transport: http(process.env.RPC_FANTOM_TESTNET, commonConfig),
+});
+
+export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
+  [ChainId.mainnet]: mainnetClient,
+  [ChainId.arbitrum_one]: arbitrumClient,
+  [ChainId.arbitrum_goerli]: arbitrumGoerliClient,
+  [ChainId.polygon]: polygonClient,
+  [ChainId.optimism]: optimismClient,
+  [ChainId.optimism_goerli]: optimismGoerliClient,
+  [ChainId.metis]: metisClient,
+  [ChainId.base]: baseClient,
+  [ChainId.sepolia]: sepoliaClient,
+  [ChainId.goerli]: goerliClient,
+  [ChainId.fantom]: fantomClient,
+  [ChainId.fantom_testnet]: fantomTestnetClient,
+  [ChainId.bnb]: bnbClient,
+  [ChainId.avalanche]: avalancheClient,
+  [ChainId.gnosis]: gnosisClient,
+  [ChainId.scroll]: scrollClient,
+  // [ChainId.scroll_alpha]: scrollAlphaClient,
+  [ChainId.scroll_sepolia]: scrollSepoliaClient,
+  [ChainId.zkEVM]: zkEVMClient,
+  [ChainId.fuji]: fujiClient,
+  [ChainId.mumbai]: mumbaiClient,
+  [ChainId.harmony]: harmonyClient,
+} as const;

@@ -250,7 +250,7 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
     .withConcurrency(5)
     .useCorrespondingResults()
     .process(async ({ from, to }) => {
-      return viemGetLogs(client, {
+      return getLogs(client, {
         fromBlock: from,
         toBlock: to,
         events,

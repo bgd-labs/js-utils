@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   getContractDeploymentBlock,
   getBlockAtTimestamp,
-  getLogs,
+  strategicGetLogs,
 } from './helpers';
 import { getAbiItem } from 'viem';
 import { IPoolV1_ABI } from './mocks/IPoolV1';
@@ -45,7 +45,7 @@ describe('helpers', () => {
   it(
     'getLogs should use batching for known rpcs',
     async () => {
-      const logs = await getLogs({
+      const logs = await strategicGetLogs({
         client: CHAIN_ID_CLIENT_MAP[mainnet.id],
         events: [getAbiItem({ abi: IPoolV1_ABI, name: 'Borrow' })],
         address: '0x398eC7346DcD622eDc5ae82352F02bE94C62d119', // v1 pool

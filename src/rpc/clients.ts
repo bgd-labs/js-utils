@@ -7,24 +7,7 @@ import {
   http,
   HttpTransportConfig,
 } from 'viem';
-import * as viemChains from 'viem/chains';
-
-export const VIEM_CHAINS: Record<number, Chain> = Object.values(viemChains).reduce(
-  (acc, chain) => {
-    return { ...acc, [chain.id]: chain };
-  },
-  {},
-);
-
-const commonHttpConfig = { timeout: 30_000 };
-
-export const commonFallBackConfig = {
-  rank: false,
-  retryDelay: 500,
-  retryCount: 5,
-};
-
-const {
+import {
   mainnet,
   polygon,
   avalanche,
@@ -49,7 +32,49 @@ const {
   harmonyOne,
   polygonZkEvm,
   sepolia,
-} = viemChains;
+} from 'viem/chains';
+
+const viemChains = {
+  mainnet,
+  polygon,
+  avalanche,
+  bsc,
+  base,
+  arbitrum,
+  metis,
+  optimism,
+  gnosis,
+  fantom,
+  polygonMumbai,
+  scroll,
+  arbitrumGoerli,
+  goerli,
+  arbitrumSepolia,
+  bscTestnet,
+  optimismGoerli,
+  scrollTestnet,
+  scrollSepolia,
+  fantomTestnet,
+  avalancheFuji,
+  harmonyOne,
+  polygonZkEvm,
+  sepolia,
+};
+
+export const VIEM_CHAINS: Record<number, Chain> = Object.values(viemChains).reduce(
+  (acc, chain) => {
+    return { ...acc, [chain.id]: chain };
+  },
+  {},
+);
+
+const commonHttpConfig = { timeout: 30_000 };
+
+export const commonFallBackConfig = {
+  rank: false,
+  retryDelay: 500,
+  retryCount: 5,
+};
 
 function checkEnv(envVar?: string) {
   return envVar || '';
@@ -184,6 +209,10 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, Client> = Object.entries(
   const chainId = Number(rpcUrlObject[0]);
   const localRpcUrls = rpcUrlObject[1];
   const initialChain = VIEM_CHAINS[chainId];
+
+  if (!initialChain) {
+    throw new Error(`Can't set chain for this RPC's urls. Check if you import chain for this chain id ${chainId}`);
+  }
 
   const chain = {
     ...initialChain,

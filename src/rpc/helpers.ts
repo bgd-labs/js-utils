@@ -1,11 +1,7 @@
-import {
-  Address,
-  GetLogsReturnType,
-  Client,
-} from 'viem';
+import { Address, GetLogsReturnType, Client } from 'viem';
 import type { AbiEvent } from 'abitype';
 import { PromisePool } from '@supercharge/promise-pool';
-import { getBlock, getBytecode, getLogs as viemGetLogs } from 'viem/actions';
+import { getBlock, getBytecode, getLogs } from 'viem/actions';
 
 interface GetContractDeploymentBlockArgs {
   client: Client;
@@ -116,9 +112,7 @@ export async function getBlockAtTimestamp({
   throw new Error('Could not find matching block');
 }
 
-interface GetLogsArgs<
-  TAbiEvents extends AbiEvent[] | undefined,
-> {
+interface GetLogsArgs<TAbiEvents extends AbiEvent[] | undefined> {
   client: Client;
   events: TAbiEvents;
   address: Address;
@@ -126,7 +120,14 @@ interface GetLogsArgs<
   toBlock: bigint;
 }
 
-export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
+/**
+ * A thin wrapper around eth_getLogs which does batching & error handing and some known scenarios
+ * @param param0
+ * @returns logs
+ */
+export async function strategicGetLogs<
+  TAbiEvents extends AbiEvent[] | undefined,
+>({
   client,
   events,
   address,
@@ -142,7 +143,7 @@ export async function getLogs<TAbiEvents extends AbiEvent[] | undefined>({
     if (/alchemy/.test(url)) {
       try {
         // TODO: better error handling as alchemy suggests proper ranges
-        return await viemGetLogs(client, {
+        return await getLogs(client, {
           fromBlock,
           toBlock,
           events,
@@ -180,7 +181,7 @@ export async function getLogsRecursive<
 }: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
   if (fromBlock <= toBlock) {
     try {
-      const logs = await viemGetLogs(client,{
+      const logs = await getLogs(client, {
         fromBlock,
         toBlock,
         events,
@@ -249,7 +250,7 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
     .withConcurrency(5)
     .useCorrespondingResults()
     .process(async ({ from, to }) => {
-      return viemGetLogs(client,{
+      return viemGetLogs(client, {
         fromBlock: from,
         toBlock: to,
         events,

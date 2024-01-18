@@ -21,7 +21,6 @@ import {
   metis,
   base,
   gnosis,
-  scrollTestnet,
 } from 'viem/chains';
 
 export const ChainId = {
@@ -41,7 +40,6 @@ export const ChainId = {
   harmony: harmonyOne.id,
   sepolia: sepolia.id,
   scroll: scroll.id,
-  scroll_alpha: scrollTestnet.id,
   scroll_sepolia: scrollSepolia.id,
   metis: metis.id,
   base: base.id,

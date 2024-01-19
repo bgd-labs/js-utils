@@ -2,11 +2,12 @@ import { describe, it, expect } from 'vitest';
 import {
   getContractDeploymentBlock,
   getBlockAtTimestamp,
-  getLogs,
+  strategicGetLogs,
 } from './helpers';
-import { mainnetClient } from './clients';
 import { getAbiItem } from 'viem';
 import { IPoolV1_ABI } from './mocks/IPoolV1';
+import { CHAIN_ID_CLIENT_MAP } from './clients.ts';
+import { mainnet } from 'viem/chains';
 
 describe('helpers', () => {
   it(
@@ -14,7 +15,7 @@ describe('helpers', () => {
     async () => {
       const maxDelta = 1000n;
       const result = await getContractDeploymentBlock({
-        client: mainnetClient,
+        client: CHAIN_ID_CLIENT_MAP[mainnet.id],
         contractAddress: '0x5a98fcbea516cf06857215779fd812ca3bef1b32',
         fromBlock: 11470216n,
         toBlock: 11475216n,
@@ -29,7 +30,7 @@ describe('helpers', () => {
   it('getBlockAtTimestamp', async () => {
     const maxDelta = 1000n;
     const result = await getBlockAtTimestamp({
-      client: mainnetClient,
+      client: CHAIN_ID_CLIENT_MAP[mainnet.id],
       timestamp: 1704488567n,
       fromBlock: 18933610n,
       toBlock: 18953610n,
@@ -44,8 +45,8 @@ describe('helpers', () => {
   it(
     'getLogs should use batching for known rpcs',
     async () => {
-      const logs = await getLogs({
-        client: mainnetClient,
+      const logs = await strategicGetLogs({
+        client: CHAIN_ID_CLIENT_MAP[mainnet.id],
         events: [getAbiItem({ abi: IPoolV1_ABI, name: 'Borrow' })],
         address: '0x398eC7346DcD622eDc5ae82352F02bE94C62d119', // v1 pool
         fromBlock: 9241022n,

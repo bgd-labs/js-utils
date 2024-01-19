@@ -129,11 +129,6 @@ export const optimismGoerliClient = createPublicClient({
   transport: http(process.env.RPC_OPTIMISM_GOERLI, commonConfig),
 });
 
-// export const scrollAlphaClient = createPublicClient({
-//   chain: scrollTestnet,
-//   transport: http(process.env.RPC_SCROLL_ALPHA, commonConfig),
-// });
-
 export const scrollSepoliaClient = createPublicClient({
   chain: scrollSepolia,
   transport: http(process.env.RPC_SCROLL_SEPOLIA, commonConfig),
@@ -162,7 +157,6 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.avalanche]: avalancheClient,
   [ChainId.gnosis]: gnosisClient,
   [ChainId.scroll]: scrollClient,
-  // [ChainId.scroll_alpha]: scrollAlphaClient,
   [ChainId.scroll_sepolia]: scrollSepoliaClient,
   [ChainId.zkEVM]: zkEVMClient,
   [ChainId.fuji]: fujiClient,

@@ -1,4 +1,4 @@
-import { Address, GetLogsReturnType, Client } from 'viem';
+import { Address, GetLogsReturnType, Client, fromHex, Hex } from 'viem';
 import type { AbiEvent } from 'abitype';
 import { PromisePool } from '@supercharge/promise-pool';
 import { getBlock, getBytecode, getLogs } from 'viem/actions';
@@ -141,17 +141,7 @@ export async function strategicGetLogs<
     if (/quiknode/.test(url)) batchSize = 10_000;
     // alchemy behaves different to other rpcs as it allows querying with infinite block range as long as the response size is below a certain threshold
     if (/alchemy/.test(url)) {
-      try {
-        // TODO: better error handling as alchemy suggests proper ranges
-        return await getLogs(client, {
-          fromBlock,
-          toBlock,
-          events,
-          address,
-        });
-      } catch (e) {
-        batchSize = 2_000;
-      }
+      getLogsRecursive({ client, events, address, fromBlock, toBlock });
     }
     if (batchSize > 0) {
       return getLogsInBatches({
@@ -179,6 +169,7 @@ export async function getLogsRecursive<
   fromBlock,
   toBlock,
 }: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
+  console.log('recursions', fromBlock, toBlock);
   if (fromBlock <= toBlock) {
     try {
       const logs = await getLogs(client, {
@@ -189,6 +180,26 @@ export async function getLogsRecursive<
       });
       return logs;
     } catch (error: any) {
+      // for alchemy part of the details string contains sth like: [0x8d01be, 0x948ce4]
+      const rangeMatch = (error.details as string)?.match(/.*\[(.*),\s*(.*)\]/);
+      if (rangeMatch?.length === 3) {
+        const maxBlock = fromHex(rangeMatch[2] as Hex, 'bigint');
+        const arr1 = await getLogsRecursive({
+          client,
+          events,
+          address,
+          fromBlock,
+          toBlock: maxBlock,
+        });
+        const arr2 = await getLogsRecursive({
+          client,
+          events,
+          address,
+          fromBlock: maxBlock + BigInt(1),
+          toBlock,
+        });
+        return [...arr1, ...arr2];
+      }
       // divide & conquer when issue/limit is now known
       const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
       const arr1 = await getLogsRecursive({

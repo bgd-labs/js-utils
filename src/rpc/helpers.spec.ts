@@ -8,6 +8,7 @@ import { getAbiItem } from 'viem';
 import { IPoolV1_ABI } from './mocks/IPoolV1';
 import { CHAIN_ID_CLIENT_MAP } from './clients.ts';
 import { mainnet } from 'viem/chains';
+import { getLogs } from 'viem/actions';
 
 describe('helpers', () => {
   it(
@@ -57,4 +58,18 @@ describe('helpers', () => {
     },
     { timeout: 60000 },
   );
+
+  // it(
+  //   'getLogs should use alchemy range',
+  //   async () => {
+  //     const logs = await strategicGetLogs({
+  //       client: CHAIN_ID_CLIENT_MAP[mainnet.id],
+  //       events: [getAbiItem({ abi: IPoolV1_ABI, name: 'Borrow' })],
+  //       address: '0x398eC7346DcD622eDc5ae82352F02bE94C62d119', // v1 pool
+  //       fromBlock: 9241022n,
+  //       toBlock: await CHAIN_ID_CLIENT_MAP[mainnet.id].getBlockNumber(),
+  //     });
+  //   },
+  //   { timeout: 120000 },
+  // );
 });

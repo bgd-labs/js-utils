@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.0](https://github.com/bgd-labs/js-utils/compare/v1.1.1...v1.2.0) (2024-02-15)
+
+
+### Features
+
+* use recursive logs for alchemy ([#22](https://github.com/bgd-labs/js-utils/issues/22)) ([eab9a7e](https://github.com/bgd-labs/js-utils/commit/eab9a7ebd4d0b2759df7ed3973ee067b5d326de5))
+
 ## [1.1.1](https://github.com/bgd-labs/js-utils/compare/v1.1.0...v1.1.1) (2024-01-19)
 
 

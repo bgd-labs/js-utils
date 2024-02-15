@@ -25,7 +25,7 @@ export async function getProposalMetadata(
     },
   });
   if (!ipfsResponse.ok) throw Error(`IPFS: error fetching ${ipfsPath}`);
-  const clone = await ipfsResponse.clone();
+  const clone = ipfsResponse.clone();
   try {
     const response = await ipfsResponse.json();
     const { content, data } = matter(response.description);
@@ -35,8 +35,6 @@ export async function getProposalMetadata(
       description: content,
       ...data,
     };
-    // matter will error in case the proposal is not valid yaml (like on proposal 0)
-    // therefore in the case of an error we just inline the complete ipfs content
   } catch (e) {
     const { content, data } = matter(await clone.text());
     return {

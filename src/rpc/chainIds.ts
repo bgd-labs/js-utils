@@ -21,6 +21,8 @@ import {
   metis,
   base,
   gnosis,
+  celo,
+  zkSync
 } from 'viem/chains';
 
 export const ChainId = {
@@ -46,4 +48,6 @@ export const ChainId = {
   bnb: bsc.id,
   gnosis: gnosis.id,
   zkEVM: polygonZkEvm.id,
+  celo: celo.id,
+  zkSync: zkSync.id
 } as const;

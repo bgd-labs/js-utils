@@ -14,6 +14,8 @@ import {
   gnosis,
   polygonZkEvm,
   scroll,
+  celo,
+  zkSync,
   avalancheFuji,
   polygonMumbai,
   harmonyOne,
@@ -88,6 +90,16 @@ export const zkEVMClient = createPublicClient({
   transport: http(process.env.RPC_ZKEVM, commonConfig),
 });
 
+export const celoClient = createPublicClient({
+  chain: celo,
+  transport: http(process.env.RPC_CELO, commonConfig),
+});
+
+export const zkSyncClient = createPublicClient({
+  chain: zkSync,
+  transport: http(process.env.RPC_ZKSYNC, commonConfig),
+});
+
 export const harmonyClient = createPublicClient({
   chain: harmonyOne,
   transport: http(process.env.RPC_HARMONY, commonConfig),
@@ -159,6 +171,8 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
   [ChainId.scroll]: scrollClient,
   [ChainId.scroll_sepolia]: scrollSepoliaClient,
   [ChainId.zkEVM]: zkEVMClient,
+  [ChainId.celo]: celoClient,
+  [ChainId.zkSync]: zkSyncClient,
   [ChainId.fuji]: fujiClient,
   [ChainId.mumbai]: mumbaiClient,
   [ChainId.harmony]: harmonyClient,

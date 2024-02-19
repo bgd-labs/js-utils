@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.1](https://github.com/bgd-labs/js-utils/compare/v1.2.0...v1.2.1) (2024-02-19)
+
+
+### Bug Fixes
+
+* add celo and zkSync viem client ([#24](https://github.com/bgd-labs/js-utils/issues/24)) ([bbcd1e9](https://github.com/bgd-labs/js-utils/commit/bbcd1e99d6f83cc4ee048440c1060f87946ad1b2))
+
 ## [1.2.0](https://github.com/bgd-labs/js-utils/compare/v1.1.1...v1.2.0) (2024-02-15)
 
 

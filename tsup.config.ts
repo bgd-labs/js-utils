@@ -1,7 +1,7 @@
 import type { Options } from 'tsup';
 
 const config: Options = {
-  entry: ['src/index.ts'],
+  entry: ['src/browser.ts', 'src/node.ts'],
   sourcemap: true,
   format: ['iife', 'cjs', 'esm'],
   dts: {

@@ -1,4 +1,4 @@
-import { PublicClient, createPublicClient, http } from 'viem';
+import { createClient, http } from 'viem';
 import {
   mainnet,
   arbitrum,
@@ -21,137 +21,137 @@ import {
   harmonyOne,
   arbitrumGoerli,
   optimismGoerli,
-  scrollTestnet,
   scrollSepolia,
   fantomTestnet,
   arbitrumSepolia,
 } from 'viem/chains';
 import { ChainId } from './chainIds';
+import { Client } from 'viem';
 
 const commonConfig = { timeout: 30_000 };
 
-export const mainnetClient = createPublicClient({
+export const mainnetClient = createClient({
   chain: mainnet,
   transport: http(process.env.RPC_MAINNET, commonConfig),
 });
 
-export const arbitrumClient = createPublicClient({
+export const arbitrumClient = createClient({
   chain: arbitrum,
   transport: http(process.env.RPC_ARBITRUM, commonConfig),
 });
 
-export const polygonClient = createPublicClient({
+export const polygonClient = createClient({
   chain: polygon,
   transport: http(process.env.RPC_POLYGON, commonConfig),
 });
 
-export const optimismClient = createPublicClient({
+export const optimismClient = createClient({
   chain: optimism,
   transport: http(process.env.RPC_OPTIMISM, commonConfig),
 });
 
-export const metisClient = createPublicClient({
+export const metisClient = createClient({
   chain: metis,
   transport: http(process.env.RPC_METIS, commonConfig),
 });
 
-export const baseClient = createPublicClient({
+export const baseClient = createClient({
   chain: base,
   transport: http(process.env.RPC_BASE, commonConfig),
 });
 
-export const fantomClient = createPublicClient({
+export const fantomClient = createClient({
   chain: fantom,
   transport: http(process.env.RPC_FANTOM, commonConfig),
 });
 
-export const bnbClient = createPublicClient({
+export const bnbClient = createClient({
   chain: bsc,
   transport: http(process.env.RPC_BNB, commonConfig),
 });
 
-export const avalancheClient = createPublicClient({
+export const avalancheClient = createClient({
   chain: avalanche,
   transport: http(process.env.RPC_AVALANCHE, commonConfig),
 });
 
-export const gnosisClient = createPublicClient({
+export const gnosisClient = createClient({
   chain: gnosis,
   transport: http(process.env.RPC_GNOSIS, commonConfig),
 });
 
-export const scrollClient = createPublicClient({
+export const scrollClient = createClient({
   chain: scroll,
   transport: http(process.env.RPC_SCROLL, commonConfig),
 });
 
-export const zkEVMClient = createPublicClient({
+export const zkEVMClient = createClient({
   chain: polygonZkEvm,
   transport: http(process.env.RPC_ZKEVM, commonConfig),
 });
 
-export const celoClient = createPublicClient({
+export const celoClient = createClient({
   chain: celo,
   transport: http(process.env.RPC_CELO, commonConfig),
 });
 
-export const zkSyncClient = createPublicClient({
+export const zkSyncClient = createClient({
   chain: zkSync,
   transport: http(process.env.RPC_ZKSYNC, commonConfig),
 });
 
-export const harmonyClient = createPublicClient({
+export const harmonyClient = createClient({
   chain: harmonyOne,
   transport: http(process.env.RPC_HARMONY, commonConfig),
 });
 
 // testnets
-export const fujiClient = createPublicClient({
+export const fujiClient = createClient({
   chain: avalancheFuji,
   transport: http(process.env.RPC_FUJI, commonConfig),
 });
 
-export const mumbaiClient = createPublicClient({
+export const mumbaiClient = createClient({
   chain: polygonMumbai,
   transport: http(process.env.RPC_MUMBAI, commonConfig),
 });
 
-export const sepoliaClient = createPublicClient({
+export const sepoliaClient = createClient({
   chain: sepolia,
   transport: http(process.env.RPC_SEPOLIA, commonConfig),
 });
 
-export const goerliClient = createPublicClient({
+export const goerliClient = createClient({
   chain: goerli,
   transport: http(process.env.RPC_GOERLI, commonConfig),
 });
 
-export const arbitrumGoerliClient = createPublicClient({
+export const arbitrumGoerliClient = createClient({
   chain: arbitrumGoerli,
   transport: http(process.env.RPC_ARBITRUM_GOERLI, commonConfig),
 });
 
-export const arbitrumSepoliaClient = createPublicClient({
+export const arbitrumSepoliaClient = createClient({
   chain: arbitrumSepolia,
   transport: http(process.env.RPC_ARBITRUM_SEPOLIA, commonConfig),
 });
 
-export const optimismGoerliClient = createPublicClient({
+export const optimismGoerliClient = createClient({
   chain: optimismGoerli,
   transport: http(process.env.RPC_OPTIMISM_GOERLI, commonConfig),
 });
 
-export const scrollSepoliaClient = createPublicClient({
+export const scrollSepoliaClient = createClient({
   chain: scrollSepolia,
   transport: http(process.env.RPC_SCROLL_SEPOLIA, commonConfig),
 });
 
-export const fantomTestnetClient = createPublicClient({
+export const fantomTestnetClient = createClient({
   chain: fantomTestnet,
   transport: http(process.env.RPC_FANTOM_TESTNET, commonConfig),
 });
 
-export const CHAIN_ID_CLIENT_MAP: Record<number, PublicClient> = {
+export const CHAIN_ID_CLIENT_MAP: Record<number, Client> = {
   [ChainId.mainnet]: mainnetClient,
   [ChainId.arbitrum_one]: arbitrumClient,
   [ChainId.arbitrum_goerli]: arbitrumGoerliClient,

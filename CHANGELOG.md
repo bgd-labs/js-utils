@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.2.2](https://github.com/bgd-labs/js-utils/compare/v1.2.1...v1.2.2) (2024-02-27)
+
+
+### Bug Fixes
+
+* use pinata upload ([#26](https://github.com/bgd-labs/js-utils/issues/26)) ([c70ce5d](https://github.com/bgd-labs/js-utils/commit/c70ce5d139872d7f844c931d6283a992d2679af3))
+
 ## [1.2.1](https://github.com/bgd-labs/js-utils/compare/v1.2.0...v1.2.1) (2024-02-19)
 
 

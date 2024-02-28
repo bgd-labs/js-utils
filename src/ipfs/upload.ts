@@ -35,7 +35,7 @@ export async function uploadToTheGraph(source: string) {
 }
 
 export async function uploadToQuicknode(source: string, key?: string) {
-  const apiKey = 'QN_649f38d881844263addf491141faba96';
+  const apiKey = process.env.QUICKNODE_API_KEY!;
   const headers = new Headers();
   headers.append('x-api-key', apiKey);
   const data = new FormData();

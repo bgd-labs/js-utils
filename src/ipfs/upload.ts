@@ -31,5 +31,25 @@ export async function uploadToTheGraph(source: string) {
     method: 'POST',
     body: data,
   });
-  return await res.json();
+  return res.json();
+}
+
+export async function uploadToQuicknode(source: string, key?: string) {
+  const apiKey = 'QN_649f38d881844263addf491141faba96';
+  const headers = new Headers();
+  headers.append('x-api-key', apiKey);
+  const data = new FormData();
+  data.append('Body', new Blob([source]));
+  data.append('Key', key || 'unknownKey');
+  data.append('ContentType', 'text/plain');
+  const res = await fetch(
+    'https://api.quicknode.com/ipfs/rest/v1/s3/put-object',
+    {
+      method: 'POST',
+      headers,
+      body: data,
+      redirect: 'follow',
+    },
+  );
+  return res.text();
 }

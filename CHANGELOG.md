@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.3.0](https://github.com/bgd-labs/js-utils/compare/v1.2.2...v1.3.0) (2024-02-28)
+
+
+### Features
+
+* add quicknode ipfs ([#30](https://github.com/bgd-labs/js-utils/issues/30)) ([dbeb2c1](https://github.com/bgd-labs/js-utils/commit/dbeb2c19c188b124faead60f8093a6dbac878f2e))
+
+
+### Bug Fixes
+
+* add custom node entry point ([#28](https://github.com/bgd-labs/js-utils/issues/28)) ([1879b2b](https://github.com/bgd-labs/js-utils/commit/1879b2bf14a42f14b46dde4d2fc5494d83a69817))
+
 ## [1.2.2](https://github.com/bgd-labs/js-utils/compare/v1.2.1...v1.2.2) (2024-02-27)
 
 

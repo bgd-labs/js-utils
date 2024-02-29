@@ -6,6 +6,7 @@ import {
   optimism,
   metis,
   base,
+  baseSepolia,
   sepolia,
   goerli,
   bsc,
@@ -151,6 +152,11 @@ export const fantomTestnetClient = createClient({
   transport: http(process.env.RPC_FANTOM_TESTNET, commonConfig),
 });
 
+export const baseSepoliaClient = createClient({
+  chain: baseSepolia,
+  transport: http(process.env.RPC_BASE_SEPOLIA, commonConfig),
+});
+
 export const CHAIN_ID_CLIENT_MAP: Record<number, Client> = {
   [ChainId.mainnet]: mainnetClient,
   [ChainId.arbitrum_one]: arbitrumClient,
@@ -161,6 +167,7 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, Client> = {
   [ChainId.optimism_goerli]: optimismGoerliClient,
   [ChainId.metis]: metisClient,
   [ChainId.base]: baseClient,
+  [ChainId.base_sepolia]: baseSepoliaClient,
   [ChainId.sepolia]: sepoliaClient,
   [ChainId.goerli]: goerliClient,
   [ChainId.fantom]: fantomClient,

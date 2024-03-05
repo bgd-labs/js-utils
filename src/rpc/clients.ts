@@ -22,6 +22,7 @@ import {
   harmonyOne,
   arbitrumGoerli,
   optimismGoerli,
+  optimismSepolia,
   scrollSepolia,
   fantomTestnet,
   arbitrumSepolia,
@@ -142,6 +143,11 @@ export const optimismGoerliClient = createClient({
   transport: http(process.env.RPC_OPTIMISM_GOERLI, commonConfig),
 });
 
+export const optimismSepoliaClient = createClient({
+  chain: optimismSepolia,
+  transport: http(process.env.RPC_OPTIMISM_SEPOLIA, commonConfig),
+});
+
 export const scrollSepoliaClient = createClient({
   chain: scrollSepolia,
   transport: http(process.env.RPC_SCROLL_SEPOLIA, commonConfig),
@@ -165,6 +171,7 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, Client> = {
   [ChainId.polygon]: polygonClient,
   [ChainId.optimism]: optimismClient,
   [ChainId.optimism_goerli]: optimismGoerliClient,
+  [ChainId.optimism_sepolia]: optimismSepoliaClient,
   [ChainId.metis]: metisClient,
   [ChainId.base]: baseClient,
   [ChainId.base_sepolia]: baseSepoliaClient,

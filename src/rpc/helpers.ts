@@ -115,7 +115,7 @@ export async function getBlockAtTimestamp({
 interface GetLogsArgs<TAbiEvents extends AbiEvent[] | undefined> {
   client: Client;
   events: TAbiEvents;
-  address: Address;
+  address: Address | Address[];
   fromBlock: bigint;
   toBlock: bigint;
 }

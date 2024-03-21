@@ -191,32 +191,42 @@ export async function getLogsRecursive<
           fromBlock,
           toBlock: maxBlock,
         });
+        const midBlock = BigInt(maxBlock + toBlock) >> BigInt(1);
+
         const arr2 = await getLogsRecursive({
           client,
           events,
           address,
           fromBlock: maxBlock + BigInt(1),
+          toBlock: midBlock,
+        });
+        const arr3 = await getLogsRecursive({
+          client,
+          events,
+          address,
+          fromBlock: midBlock + BigInt(1),
+          toBlock,
+        });
+        return [...arr1, ...arr2, ...arr3];
+      } else {
+        // divide & conquer when issue/limit is now known
+        const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
+        const arr1 = await getLogsRecursive({
+          client,
+          events,
+          address,
+          fromBlock,
+          toBlock: midBlock,
+        });
+        const arr2 = await getLogsRecursive({
+          client,
+          events,
+          address,
+          fromBlock: midBlock + BigInt(1),
           toBlock,
         });
         return [...arr1, ...arr2];
       }
-      // divide & conquer when issue/limit is now known
-      const midBlock = BigInt(fromBlock + toBlock) >> BigInt(1);
-      const arr1 = await getLogsRecursive({
-        client,
-        events,
-        address,
-        fromBlock,
-        toBlock: midBlock,
-      });
-      const arr2 = await getLogsRecursive({
-        client,
-        events,
-        address,
-        fromBlock: midBlock + BigInt(1),
-        toBlock,
-      });
-      return [...arr1, ...arr2];
     }
   }
   return [];

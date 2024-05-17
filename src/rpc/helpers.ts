@@ -268,9 +268,10 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
 
   // TODO: add retry logic
   const { results, errors } = await PromisePool.for(batches)
-    .withConcurrency(5)
+    .withConcurrency(20)
     .useCorrespondingResults()
     .process(async ({ from, to }) => {
+      console.log('iterative', from, to);
       return getLogs(client, {
         fromBlock: from,
         toBlock: to,

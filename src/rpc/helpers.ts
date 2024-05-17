@@ -266,7 +266,6 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
     });
   }
 
-  // TODO: add retry logic
   const { results, errors } = await PromisePool.for(batches)
     .withConcurrency(20)
     .useCorrespondingResults()

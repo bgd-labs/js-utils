@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.4.0](https://github.com/bgd-labs/js-utils/compare/v1.3.0...v1.4.0) (2024-06-18)
+
+
+### Features
+
+* add reserve decoding ([#37](https://github.com/bgd-labs/js-utils/issues/37)) ([63448f4](https://github.com/bgd-labs/js-utils/commit/63448f40be67e934edf516170bf76c6aea0d513f))
+
+
+### Bug Fixes
+
+* allow multi address ([#33](https://github.com/bgd-labs/js-utils/issues/33)) ([7a97084](https://github.com/bgd-labs/js-utils/commit/7a97084afac760774f0e992f4cde01f183132e21))
+
 ## [1.3.0](https://github.com/bgd-labs/js-utils/compare/v1.2.2...v1.3.0) (2024-02-28)
 
 

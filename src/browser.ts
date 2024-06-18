@@ -5,3 +5,5 @@ export * from './rpc/clients';
 export * from './ipfs/hash';
 export * from './ipfs/upload';
 export * from './ipfs/parseIpfs';
+export * from './storage/storageSlots';
+export * from './storage/poolStorage';

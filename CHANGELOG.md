@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.2](https://github.com/bgd-labs/js-utils/compare/v1.4.1...v1.4.2) (2024-07-01)
+
+
+### Bug Fixes
+
+* boolean flags ([#40](https://github.com/bgd-labs/js-utils/issues/40)) ([a823028](https://github.com/bgd-labs/js-utils/commit/a823028bf3690ce34e17152741e3a3b23c9834f8))
+
 ## [1.4.1](https://github.com/bgd-labs/js-utils/compare/v1.4.0...v1.4.1) (2024-06-18)
 
 

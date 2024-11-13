@@ -1,7 +1,14 @@
-import { Address, GetLogsReturnType, Client, fromHex, Hex } from 'viem';
+import {
+  type Address,
+  type GetLogsReturnType,
+  type Client,
+  fromHex,
+  type Hex,
+} from 'viem';
 import type { AbiEvent } from 'abitype';
 import { PromisePool } from '@supercharge/promise-pool';
 import { getBlock, getBytecode, getLogs } from 'viem/actions';
+import { debug } from 'node:util';
 
 interface GetContractDeploymentBlockArgs {
   client: Client;
@@ -169,7 +176,7 @@ export async function getLogsRecursive<
   fromBlock,
   toBlock,
 }: GetLogsArgs<TAbiEvents>): Promise<GetLogsReturnType<undefined, TAbiEvents>> {
-  console.log('recursions', fromBlock, toBlock);
+  debug('recursions')(`fetching from block ${fromBlock} to block ${toBlock}`);
   if (fromBlock <= toBlock) {
     try {
       const logs = await getLogs(client, {
@@ -278,8 +285,7 @@ async function getLogsInBatches<TAbiEvents extends AbiEvent[] | undefined>({
         address,
       });
     });
-  if (errors.length != 0) {
-    console.log(errors);
+  if (errors.length !== 0) {
     throw new Error('Error fetching logs');
   }
   return results.flat() as GetLogsReturnType<undefined, TAbiEvents>;

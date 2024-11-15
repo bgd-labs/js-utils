@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.3](https://github.com/bgd-labs/js-utils/compare/v1.4.2...v1.4.3) (2024-11-15)
+
+
+### Bug Fixes
+
+* make "recursions" debug message ([#42](https://github.com/bgd-labs/js-utils/issues/42)) ([2192118](https://github.com/bgd-labs/js-utils/commit/2192118e88ef0051932273cc00b0b364b7fbf96e))
+
 ## [1.4.2](https://github.com/bgd-labs/js-utils/compare/v1.4.1...v1.4.2) (2024-07-01)
 
 

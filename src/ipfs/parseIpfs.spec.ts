@@ -1,7 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { getProposalMetadata } from './parseIpfs';
 
-describe('parse-ipfs', () => {
+// TODO: re-enable when we found an alternative to cloudflare-ipfs.com
+describe.skip('parse-ipfs', () => {
   it('should work fine with json proposals', async () => {
     const hash = 'QmNgK8kbBgznCag29VwwBz5Q8DXDM658BQzsfAHyLqR7mF';
     const proposal = await getProposalMetadata(hash);

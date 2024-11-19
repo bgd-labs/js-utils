@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.6](https://github.com/bgd-labs/js-utils/compare/v1.4.5...v1.4.6) (2024-11-19)
+
+
+### Bug Fixes
+
+* .ts import ([#49](https://github.com/bgd-labs/js-utils/issues/49)) ([34cf196](https://github.com/bgd-labs/js-utils/commit/34cf196a86e0c16f64e30a2882c1d0b129c5457c))
+
 ## [1.4.5](https://github.com/bgd-labs/js-utils/compare/v1.4.4...v1.4.5) (2024-11-19)
 
 

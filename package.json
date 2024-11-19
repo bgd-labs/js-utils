@@ -17,7 +17,7 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest",
-    "ci:publish": "npm run build && npm publish --access=public"
+    "prepublishOnly": "npm run build"
   },
   "license": "MIT",
   "type": "module",

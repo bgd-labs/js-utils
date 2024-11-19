@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.4](https://github.com/bgd-labs/js-utils/compare/v1.4.3...v1.4.4) (2024-11-19)
+
+
+### Bug Fixes
+
+* trigger ci ([#45](https://github.com/bgd-labs/js-utils/issues/45)) ([31eb1e6](https://github.com/bgd-labs/js-utils/commit/31eb1e6f0551de79fbce6f113575ed158b77988f))
+
 ## [1.4.3](https://github.com/bgd-labs/js-utils/compare/v1.4.2...v1.4.3) (2024-11-15)
 
 

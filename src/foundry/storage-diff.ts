@@ -1,8 +1,8 @@
-import {
+import type {
   StorageItemForComparison,
   ComparedStorageItem,
   Storage,
-} from './types.ts';
+} from './types';
 
 /**
  * Generates a markdown table comparing two foundry storage layout snapshots
@@ -139,12 +139,12 @@ function generateMarkdownOutput(items: ComparedStorageItem[]): string {
     )} | ${item.offset
       .toString()
       .padEnd(columnWidths.offset, ' ')} | ${item.slot.padEnd(
-      columnWidths.slot,
-      ' ',
-    )} | ${item.type.padEnd(
-      columnWidths.type,
-      ' ',
-    )} | ${item.numberOfBytes.padEnd(columnWidths.numberOfBytes, ' ')} |\n`;
+        columnWidths.slot,
+        ' ',
+      )} | ${item.type.padEnd(
+        columnWidths.type,
+        ' ',
+      )} | ${item.numberOfBytes.padEnd(columnWidths.numberOfBytes, ' ')} |\n`;
 
     markdownTable += row;
   });

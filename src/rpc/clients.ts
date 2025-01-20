@@ -17,6 +17,7 @@ import {
   scroll,
   celo,
   zkSync,
+  linea,
   avalancheFuji,
   polygonMumbai,
   harmonyOne,
@@ -100,6 +101,11 @@ export const celoClient = createClient({
 export const zkSyncClient = createClient({
   chain: zkSync,
   transport: http(process.env.RPC_ZKSYNC, commonConfig),
+});
+
+export const lineaClient = createClient({
+  chain: linea,
+  transport: http(process.env.RPC_LINEA, commonConfig),
 });
 
 export const harmonyClient = createClient({
@@ -187,6 +193,7 @@ export const CHAIN_ID_CLIENT_MAP: Record<number, Client> = {
   [ChainId.zkEVM]: zkEVMClient,
   [ChainId.celo]: celoClient,
   [ChainId.zkSync]: zkSyncClient,
+  [ChainId.linea]: lineaClient,
   [ChainId.fuji]: fujiClient,
   [ChainId.mumbai]: mumbaiClient,
   [ChainId.harmony]: harmonyClient,

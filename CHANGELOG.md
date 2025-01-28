@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.8](https://github.com/bgd-labs/js-utils/compare/v1.4.7...v1.4.8) (2025-01-28)
+
+
+### Bug Fixes
+
+* draft release ([#53](https://github.com/bgd-labs/js-utils/issues/53)) ([396fd27](https://github.com/bgd-labs/js-utils/commit/396fd27b27e87e8407ec8e681ca78b1549bfe38e))
+
 ## [1.4.7](https://github.com/bgd-labs/js-utils/compare/v1.4.6...v1.4.7) (2025-01-28)
 
 

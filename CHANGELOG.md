@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.4.8](https://github.com/bgd-labs/js-utils/compare/v1.4.7...v1.4.8) (2025-02-06)
+
+
+### Bug Fixes
+
+* convert to number and compare slots ([#56](https://github.com/bgd-labs/js-utils/issues/56)) ([3fa55dd](https://github.com/bgd-labs/js-utils/commit/3fa55dd9ae353ea5f86f21028c78296f5b9abb75))
+* draft release ([#53](https://github.com/bgd-labs/js-utils/issues/53)) ([396fd27](https://github.com/bgd-labs/js-utils/commit/396fd27b27e87e8407ec8e681ca78b1549bfe38e))
+
 ## [1.4.7](https://github.com/bgd-labs/js-utils/compare/v1.4.6...v1.4.7) (2025-01-28)
 
 

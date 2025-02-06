@@ -80,7 +80,7 @@ function compareStorageArrays(
     if (a.slot === b.slot) {
       return a.offset - b.offset;
     }
-    return a.slot.localeCompare(b.slot);
+    return Number(a.slot) - Number(b.slot);
   });
 
   return changes;

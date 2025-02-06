@@ -7,13 +7,16 @@ exports[`compareStorageLayouts > should generate the correct output 1`] = `
 -| _balances                           | 0      | 0    | mapping(address => uint256)                                                            | 32    |
 +| _balances                           | 0      | 0    | mapping(address => struct BaseAaveToken.DelegationAwareBalance)                        | 32    |
  | _allowances                         | 0      | 1    | mapping(address => mapping(address => uint256))                                        | 32    |
- | ______gap                           | 0      | 10   | uint256[50]                                                                            | 1600  |
  | _totalSupply                        | 0      | 2    | uint256                                                                                | 32    |
  | _name                               | 0      | 3    | string                                                                                 | 32    |
  | _symbol                             | 0      | 4    | string                                                                                 | 32    |
  | ______DEPRECATED_OLD_ERC20_DECIMALS | 0      | 5    | uint8                                                                                  | 1     |
 -| _votingSnapshots                    | 0      | 6    | mapping(address => mapping(uint256 => struct GovernancePowerDelegationERC20.Snapshot)) | 32    |
 +| __________DEPRECATED_GOV_V2_PART    | 0      | 6    | uint256[3]                                                                             | 96    |
+-| _votingSnapshotsCounts              | 0      | 7    | mapping(address => uint256)                                                            | 32    |
+-| _aaveGovernance                     | 0      | 8    | contract ITransferHook                                                                 | 20    |
+ | lastInitializedRevision             | 0      | 9    | uint256                                                                                | 32    |
+ | ______gap                           | 0      | 10   | uint256[50]                                                                            | 1600  |
  | assets                              | 0      | 60   | mapping(address => struct AaveDistributionManager.AssetData)                           | 32    |
  | stakerRewardsToClaim                | 0      | 61   | mapping(address => uint256)                                                            | 32    |
  | stakersCooldowns                    | 0      | 62   | mapping(address => struct IStakedTokenV2.CooldownSnapshot)                             | 32    |
@@ -25,14 +28,12 @@ exports[`compareStorageLayouts > should generate the correct output 1`] = `
 -| DOMAIN_SEPARATOR                    | 0      | 67   | bytes32                                                                                | 32    |
  | _nonces                             | 0      | 68   | mapping(address => uint256)                                                            | 32    |
  | _admins                             | 0      | 69   | mapping(uint256 => address)                                                            | 32    |
--| _votingSnapshotsCounts              | 0      | 7    | mapping(address => uint256)                                                            | 32    |
  | _pendingAdmins                      | 0      | 70   | mapping(uint256 => address)                                                            | 32    |
 -| ______gap                           | 0      | 71   | uint256[8]                                                                             | 256   |
 +| _votingDelegatee                    | 0      | 71   | mapping(address => address)                                                            | 32    |
 +| _propositionDelegatee               | 0      | 72   | mapping(address => address)                                                            | 32    |
 +| ______gap                           | 0      | 73   | uint256[6]                                                                             | 192   |
  | _cooldownSeconds                    | 0      | 79   | uint256                                                                                | 32    |
--| _aaveGovernance                     | 0      | 8    | contract ITransferHook                                                                 | 20    |
  | _maxSlashablePercentage             | 0      | 80   | uint256                                                                                | 32    |
  | _currentExchangeRate                | 0      | 81   | uint216                                                                                | 27    |
  | inPostSlashingPeriod                | 27     | 81   | bool                                                                                   | 1     |
@@ -40,6 +41,5 @@ exports[`compareStorageLayouts > should generate the correct output 1`] = `
 -| _exchangeRateSnapshots              | 0      | 82   | mapping(uint256 => struct IStakedAaveV3.ExchangeRateSnapshot)                          | 32    |
 +| ______DEPRECATED_FROM_STK_AAVE_V3   | 0      | 82   | uint256[1]                                                                             | 32    |
  | ghoDebtToken                        | 0      | 83   | contract IGhoVariableDebtTokenTransferHook                                             | 20    |
- | lastInitializedRevision             | 0      | 9    | uint256                                                                                | 32    |
 \`\`\`"
 `;
